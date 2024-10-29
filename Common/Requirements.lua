@@ -1,5 +1,5 @@
 local requiredFunctions = {
-	["CloneRef"] = cloneref,
+    ["CloneRef"] = cloneref,
     ["IsFolder"] = isfolder,
     ["ReadFile"] = readfile,
     ["DelFolder"] = delfolder,
