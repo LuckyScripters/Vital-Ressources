@@ -17,6 +17,7 @@ local requiredFunctions = {
 	["SetReadOnly"] = setreadonly,
 	["GetMetatable"] = getrawmetatable or debug.getmetatable,
 	["HookFunction"] = hookfunction or detour_function,
+	["CloneFunction"] = clonefunction,
 	["GetConnections"] = get_signal_cons or getconnections,
 	["HookMetamethod"] = hookmetamethod or (hookFunction and function(instance : Instance, method : string, newFunction : (...any) -> (...any))
 		local metatable = getrawmetatable(instance) or debug.getmetatable(instance)
