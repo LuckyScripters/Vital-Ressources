@@ -1,3 +1,11 @@
+type UtilitiesModule = {
+	ProtectInstance : (self : UtilitiesModule, instance : Instance) -> (),
+	UnprotectInstance : (self : UtilitiesModule, instance : Instance) -> (),
+	DisableLogs : (self : UtilitiesModule) -> boolean,
+	Create : (self : UtilitiesModule, className : string, instanceType : "Instance" | "Drawing", properties : {[string] : any}) -> Instance | {[string] : any}?,
+	ThrowErrorUI : (self : UtilitiesModule, title : string, text : string, options : {{Text : string, Callback : () -> ()}}?) -> ()
+}
+
 local CoreGui = game:GetService("CoreGui")
 local ScriptContext = game:GetService("ScriptContext")
 
@@ -7,7 +15,7 @@ local errorPrompt = require(modules.ErrorPrompt)
 
 local requirements = loadstring(game:HttpGet("https://raw.githubusercontent.com/LuckyScripters/Vital-Ressources/refs/heads/main/Common/Requirements.lua", true))()
 
-local Utilities = {}
+local Utilities : UtilitiesModule = {} :: UtilitiesModule
 
 local oldIndex = nil
 local oldNamecall = nil
@@ -44,7 +52,7 @@ function Utilities:DisableLogs() : boolean
 	return true
 end
 
-function Utilities:Create(className : string, instanceType : "Instance" | "Drawing", properties : {[string] : any}) : Instance | table?
+function Utilities:Create(className : string, instanceType : "Instance" | "Drawing", properties : {[string] : any}) : Instance | {[string] : any}?
 	if instanceType == "Instance" then
 		local instance = newInstance(className)
 		for propertieName, propertieValue in properties do
@@ -56,39 +64,39 @@ function Utilities:Create(className : string, instanceType : "Instance" | "Drawi
 		for propertieName, propertieValue in properties do
 			drawing[propertieName] = propertieValue
 		end
-        return drawing
+		return drawing
 	end
 	return nil
 end
 
 function Utilities:ThrowErrorUI(title : string, text : string, options : {{Text : string, Callback : () -> ()}}?)
 	local identity = requirements:Call("GetIdentity")
-    local remadeOptions = {}
+	local remadeOptions = {}
 	requirements:Call("SetIdentity", 6)
 	local errorGui = Utilities:Create("ScreenGui", "Instance", {
-        Parent = CoreGui
-    })
-    Utilities:ProtectInstance(errorGui)
+		Parent = CoreGui
+	})
+	Utilities:ProtectInstance(errorGui)
 	errorGui.Name = "RobloxErrorPrompt"
 	local prompt = errorPrompt.new("Default")
 	prompt._hideErrorCode = true
 	prompt:setErrorTitle(title)
-    if options then
-        for index, option in options do
-            table.insert(remadeOptions, {
-                Text = option.Text,
-                Callback = function()
-                    if option.Callback then
-                        option.Callback()
-                    end
-                    prompt:_close()
-                    Utilities:UnprotectInstance(errorGui)
-                    errorGui:Destroy()
-                end,
-                Primary = index == 1
-            })
-        end
-    end
+	if options then
+		for index, option in options do
+			table.insert(remadeOptions, {
+				Text = option.Text,
+				Callback = function()
+					if option.Callback then
+						option.Callback()
+					end
+					prompt:_close()
+					Utilities:UnprotectInstance(errorGui)
+					errorGui:Destroy()
+				end,
+				Primary = index == 1
+			})
+		end
+	end
 	prompt:updateButtons(remadeOptions ~= {} and remadeOptions or {{
 		Text = "OK",
 		Callback = function()
