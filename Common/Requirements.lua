@@ -10,7 +10,10 @@ local requiredFunctions = {
 	["DelFolder"] = delfolder,
 	["WriteFile"] = writefile,
 	["MakeFolder"] = makefolder,
+	["CheckCaller"] = checkcaller,
+	["GetIdentity"] = (syn and syn.get_thread_identity) or get_thread_identity or getidentity or getthreadidentity,
 	["NewCClosure"] = newcclosure,
+	["SetIdentity"] = (syn and syn.set_thread_identity) or set_thread_identity or setidentity or setthreadidentity,
 	["SetReadOnly"] = setreadonly,
 	["GetMetatable"] = getrawmetatable or debug.getmetatable,
 	["HookFunction"] = hookfunction or detour_function,
@@ -20,6 +23,7 @@ local requiredFunctions = {
 		setreadonly(metatable, false)
 		return hookfunction(metatable[method], newcclosure(newFunction))
 	end),
+	["GetNamecallMethod"] = getnamecallmethod,
 }
 
 local Requirements = {}
