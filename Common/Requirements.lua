@@ -19,7 +19,7 @@ local requiredFunctions = {
 
 local Requirements = {}
 
-function Requirements:Call(functionName : string, ... : any) -> any?
+function Requirements:Call(functionName : string, ... : any) : any?
     local functionValue = requiredFunctions[functionName] or getgenv()[functionName]
     if functionValue then
         return functionValue(...)
