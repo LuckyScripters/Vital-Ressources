@@ -29,6 +29,21 @@ function Utilities:UnprotectInstance(instance : Instance)
 	end
 end
 
+function Utilities:DisableLogs() : boolean
+	local success, result = pcall(function()
+		for index, signal in {ScriptContext.Error} do
+			for index, connection in requirements:Call("GetConnections", signal) do
+				connection:Disable()
+			end
+		end
+	end)
+	if not success then
+		warn("Failed to disable logs! Error: " .. result)
+		return false
+	end
+	return true
+end
+
 function Utilities:Create(className : string, instanceType : "Instance" | "Drawing", properties : {[string] : any}) : Instance | table?
 	if instanceType == "Instance" then
 		local instance = newInstance(className)
@@ -44,21 +59,6 @@ function Utilities:Create(className : string, instanceType : "Instance" | "Drawi
         return drawing
 	end
 	return nil
-end
-
-function Utilities:DisableLogs() : boolean
-	local success, result = pcall(function()
-		for index, signal in {ScriptContext.Error} do
-			for index, connection in requirements:Call("GetConnections", signal) do
-				connection:Disable()
-			end
-		end
-	end)
-	if not success then
-		warn("Failed to disable logs! Error: " .. result)
-		return false
-	end
-	return true
 end
 
 function Utilities:ThrowErrorUI(title : string, text : string, options : {{Text : string, Callback : () -> ()}}?)
