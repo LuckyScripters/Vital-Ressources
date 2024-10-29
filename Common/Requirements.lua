@@ -1,6 +1,6 @@
 type RequirementsModule = {
-	Call : (functionName : string, ...any) -> any?,
-	IsCompatible : () -> (boolean, {string})
+	Call : (self : RequirementsModule, functionName : string, ...any) -> any?,
+	IsCompatible : (self : RequirementsModule) -> (boolean, {string})
 }
 
 local requiredFunctions = {
@@ -27,7 +27,7 @@ local requiredFunctions = {
 	["GetNamecallMethod"] = getnamecallmethod,
 }
 
-local Requirements = {}
+local Requirements : RequirementsModule = {} :: RequirementsModule
 
 function Requirements:Call(functionName : string, ... : any) : any?
 	local functionValue = requiredFunctions[functionName] or getgenv()[functionName]
