@@ -2,7 +2,7 @@ type UtilitiesModule = {
 	ProtectInstance : (self : UtilitiesModule, instance : Instance) -> (),
 	UnprotectInstance : (self : UtilitiesModule, instance : Instance) -> (),
 	DisableLogs : (self : UtilitiesModule) -> boolean,
-	Create : (self : UtilitiesModule, className : string, instanceType : "Instance" | "Drawing", properties : {[string] : any}) -> Instance | {[string] : any}?,
+	Create : (self : UtilitiesModule, className : string, instanceType : "Instance" | "Drawing", protected : boolean, properties : {[string] : any}) -> Instance | {[string] : any}?,
 	ThrowErrorUI : (self : UtilitiesModule, title : string, text : string, options : {{Text : string, Callback : () -> ()}}?) -> ()
 }
 
@@ -52,15 +52,21 @@ function Utilities:DisableLogs() : boolean
 	return true
 end
 
-function Utilities:Create(className : string, instanceType : "Instance" | "Drawing", properties : {[string] : any}) : Instance | {[string] : any}?
+function Utilities:Create(className : string, instanceType : "Instance" | "Drawing", protected : boolean, properties : {[string] : any}) : Instance | {[string] : any}?
 	if instanceType == "Instance" then
 		local instance = newInstance(className)
+		if protected then
+			Utilities:ProtectInstance(instance)
+		end
 		for propertieName, propertieValue in properties do
 			instance[propertieName] = propertieValue
 		end
 		return instance
 	elseif instanceType == "Drawing" then
 		local drawing = newDrawing(className)
+		if protected then
+			Utilities:ProtectInstance(drawing)
+		end
 		for propertieName, propertieValue in properties do
 			drawing[propertieName] = propertieValue
 		end
@@ -73,10 +79,9 @@ function Utilities:ThrowErrorUI(title : string, text : string, options : {{Text 
 	local identity = requirements:Call("GetIdentity")
 	local remadeOptions = {}
 	requirements:Call("SetIdentity", 6)
-	local errorGui = Utilities:Create("ScreenGui", "Instance", {
+	local errorGui = Utilities:Create("ScreenGui", "Instance", true, {
 		Parent = CoreGui
 	})
-	Utilities:ProtectInstance(errorGui)
 	errorGui.Name = "RobloxErrorPrompt"
 	local prompt = errorPrompt.new("Default")
 	prompt._hideErrorCode = true
