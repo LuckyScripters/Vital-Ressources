@@ -149,6 +149,11 @@ oldNamecall = requirements:Call("HookMetamethod", game, "__namecall", requiremen
 				if table.find(protectedInstances, value, 1) then
 					table.remove(result, index)
 				end
+				for index, protectedInstance in protectedInstances do
+					if namecallmethod == "GetDescendants" and value.IsDescendantOf(value, protectedInstance) then
+						table.remove(result, index)
+					end
+				end
 			end
 		end
 	else
