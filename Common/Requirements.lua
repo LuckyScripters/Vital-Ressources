@@ -9,6 +9,7 @@ local requiredFunctions = {
 	["ReadFile"] = readfile,
 	["DelFolder"] = delfolder,
 	["WriteFile"] = writefile,
+	["GetUpValue"] = getupvalue or debug.getupvalue,
 	["MakeFolder"] = makefolder,
 	["CheckCaller"] = checkcaller,
 	["GetIdentity"] = (syn and syn.get_thread_identity) or get_thread_identity or getidentity or getthreadidentity,
