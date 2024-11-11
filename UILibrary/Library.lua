@@ -3192,7 +3192,7 @@ function Library:CreateWindow(...)
             ScrollBarThickness = 5;
             ScrollBarImageColor3 = Library.AccentColor;
             ScrollingDirection = Enum.ScrollingDirection.Y;
-            VerticalScrollBarInset = Enum.ScrollBarInset.Always;
+            VerticalScrollBarInset = Enum.ScrollBarInset.None;
             ZIndex = 2;
             Parent = TabFrame;
         });
