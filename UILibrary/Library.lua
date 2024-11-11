@@ -3191,7 +3191,7 @@ function Library:CreateWindow(...)
             TopImage = '';
             ScrollBarThickness = 5;
             ScrollBarImageColor3 = Library.AccentColor;
-            ScrollDirection = Enum.ScrollingDirection.Y;
+            ScrollingDirection = Enum.ScrollingDirection.Y;
             VerticalScrollBarInset = Enum.ScrollBarInset.Always;
             ZIndex = 2;
             Parent = TabFrame;
@@ -3207,7 +3207,7 @@ function Library:CreateWindow(...)
             TopImage = '';
             ScrollBarThickness = 5;
             ScrollBarImageColor3 = Library.AccentColor;
-            ScrollDirection = Enum.ScrollingDirection.Y;
+            ScrollingDirection = Enum.ScrollingDirection.Y;
             VerticalScrollBarInset = Enum.ScrollBarInset.Always;
             ZIndex = 2;
             Parent = TabFrame;
