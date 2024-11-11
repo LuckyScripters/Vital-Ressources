@@ -3185,7 +3185,7 @@ function Library:CreateWindow(...)
             BackgroundTransparency = 1;
             BorderSizePixel = 0;
             Position = UDim2.new(0, 0, 0, 0);
-            Size = UDim2.new(0.5, 0, 1, 0);
+            Size = UDim2.new(0.5, -8, 1, -8);
             CanvasSize = UDim2.new(0, 0, 0, 0);
             BottomImage = '';
             TopImage = '';
@@ -3198,7 +3198,7 @@ function Library:CreateWindow(...)
             BackgroundTransparency = 1;
             BorderSizePixel = 0;
             Position = UDim2.new(0.5, 0, 0, 0);
-            Size = UDim2.new(0.5, 0, 1, 0);
+            Size = UDim2.new(0.5, -8, 1, -8);
             CanvasSize = UDim2.new(0, 0, 0, 0);
             BottomImage = '';
             TopImage = '';
