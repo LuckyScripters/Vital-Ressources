@@ -3179,6 +3179,7 @@ function Library:CreateWindow(...)
             Visible = false;
             ZIndex = 2;
             Parent = TabContainer;
+            ClipsDescendants = true;
         });
     
         local LeftSide = Library:Create('ScrollingFrame', {
