@@ -3189,10 +3189,9 @@ function Library:CreateWindow(...)
             CanvasSize = UDim2.new(0, 0, 0, 0);
             BottomImage = '';
             TopImage = '';
-            ScrollBarThickness = 5;
+            ScrollBarThickness = 3;
             ScrollBarImageColor3 = Library.AccentColor;
             ScrollingDirection = Enum.ScrollingDirection.Y;
-            VerticalScrollBarInset = Enum.ScrollBarInset.None;
             ZIndex = 2;
             Parent = TabFrame;
         });
@@ -3205,10 +3204,9 @@ function Library:CreateWindow(...)
             CanvasSize = UDim2.new(0, 0, 0, 0);
             BottomImage = '';
             TopImage = '';
-            ScrollBarThickness = 5;
+            ScrollBarThickness = 3;
             ScrollBarImageColor3 = Library.AccentColor;
             ScrollingDirection = Enum.ScrollingDirection.Y;
-            VerticalScrollBarInset = Enum.ScrollBarInset.Always;
             ZIndex = 2;
             Parent = TabFrame;
         });
