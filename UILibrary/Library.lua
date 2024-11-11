@@ -3212,6 +3212,9 @@ function Library:CreateWindow(...)
             ZIndex = 2;
             Parent = TabFrame;
         });
+
+        Library:AddToRegistry(LeftSide, { ScrollBarImageColor3 = 'AccentColor'; });
+        Library:AddToRegistry(RightSide, { ScrollBarImageColor3 = 'AccentColor'; });
     
         Library:Create('UIListLayout', {
             Padding = UDim.new(0, 8);
