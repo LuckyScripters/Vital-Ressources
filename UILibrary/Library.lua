@@ -44,7 +44,7 @@ local Library = {
     OpenedFrames = {};
     DependencyBoxes = {};
 
-    Keybind = Enum.Keybind.LeftControl
+    Keybind = Enum.KeyCode.LeftControl
 
     Signals = {};
     ScreenGui = ScreenGui;
