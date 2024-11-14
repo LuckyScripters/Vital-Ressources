@@ -11,7 +11,6 @@ local ScriptContext = game:GetService("ScriptContext")
 
 local robloxGui = CoreGui.RobloxGui
 local modules = robloxGui.Modules
-local errorPrompt = require(modules.ErrorPrompt)
 
 local requirements = loadstring(game:HttpGet("https://raw.githubusercontent.com/LuckyScripters/Vital-Ressources/refs/heads/main/Common/Requirements.lua", true))()
 
@@ -79,6 +78,7 @@ function Utilities:ThrowErrorUI(title : string, text : string, options : {{Text 
 	local identity = requirements:Call("GetIdentity")
 	local remadeOptions = {}
 	requirements:Call("SetIdentity", 6)
+	local errorPrompt = require(modules.ErrorPrompt)
 	local errorGui = Utilities:Create("ScreenGui", "Instance", true, {
 		Parent = CoreGui
 	})
