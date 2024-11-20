@@ -28,12 +28,24 @@ local requiredFunctions = {
 	["GetNamecallMethod"] = getnamecallmethod,
 }
 
+local utilities = loadstring(game:HttpGet("https://raw.githubusercontent.com/LuckyScripters/Vital-Ressources/refs/heads/main/Common/Utilities.lua", true))()
+
 local Requirements : RequirementsModule = {} :: RequirementsModule
 
 function Requirements:Call(functionName : string, ... : any) : any?
 	local functionValue = requiredFunctions[functionName] or getgenv()[functionName]
 	if functionValue then
-		return functionValue(...)
+		local success, result = pcall(functionValue, ...)
+		if not success then
+			utilities:ThrowErrorUI("Vital Error", "Error when trying to call" .. " " .. functionName .. "\n" .. result, {
+				{
+					Text = "Close",
+					Callback = nil
+				}
+			})
+			return nil
+		end
+		return result
 	end
 	return nil
 end
