@@ -4,29 +4,29 @@ type RequirementsModule = {
 }
 
 local requiredFunctions = {
-	["CloneRef"] = cloneref,
-	["IsFolder"] = isfolder,
-	["ReadFile"] = readfile,
-	["DelFolder"] = delfolder,
-	["WriteFile"] = writefile,
-	["GetUpValue"] = getupvalue or debug.getupvalue,
-	["MakeFolder"] = makefolder,
-	["CheckCaller"] = checkcaller,
-	["GetIdentity"] = (syn and syn.get_thread_identity) or get_thread_identity or getidentity or getthreadidentity,
-	["NewCClosure"] = newcclosure,
-	["SetIdentity"] = (syn and syn.set_thread_identity) or set_thread_identity or setidentity or setthreadidentity,
-	["SetReadOnly"] = setreadonly,
-	["GetMetatable"] = getrawmetatable or debug.getmetatable,
-	["HookFunction"] = hookfunction or detour_function,
-	["CloneFunction"] = clonefunction,
-	["GetConnections"] = get_signal_cons or getconnections,
+	["CloneRef"] = cloneref or "nil",
+	["IsFolder"] = isfolder or "nil",
+	["ReadFile"] = readfile or "nil",
+	["DelFolder"] = delfolder or "nil",
+	["WriteFile"] = writefile or "nil",
+	["GetUpValue"] = getupvalue or debug.getupvalue or "nil",
+	["MakeFolder"] = makefolder or "nil",
+	["CheckCaller"] = checkcaller or "nil",
+	["GetIdentity"] = (syn and syn.get_thread_identity) or get_thread_identity or getidentity or getthreadidentity or "nil",
+	["NewCClosure"] = newcclosure or "nil",
+	["SetIdentity"] = (syn and syn.set_thread_identity) or set_thread_identity or setidentity or setthreadidentity or "nil",
+	["SetReadOnly"] = setreadonly or "nil",
+	["GetMetatable"] = getrawmetatable or debug.getmetatable or "nil",
+	["HookFunction"] = hookfunction or detour_function or "nil",
+	["CloneFunction"] = clonefunction or "nil",
+	["GetConnections"] = get_signal_cons or getconnections or "nil",
 	["HookMetamethod"] = hookmetamethod or (hookFunction and function(instance : Instance, method : string, newFunction : (...any) -> (...any))
 		local metatable = getrawmetatable(instance) or debug.getmetatable(instance)
 		setreadonly(metatable, false)
 		return hookfunction(metatable[method], newcclosure(newFunction))
-	end),
-	["GetNamecallMethod"] = getnamecallmethod,
-	["Test"] = testoiiuhiuhihihi
+	end) or "nil",
+	["GetNamecallMethod"] = getnamecallmethod or "nil",
+	["Test"] = testoiiuhiuhihihi or "nil"
 }
 
 --local utilities = loadstring(game:HttpGet("https://raw.githubusercontent.com/LuckyScripters/Vital-Ressources/refs/heads/main/Common/Utilities.lua", true))()
