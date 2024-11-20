@@ -51,8 +51,6 @@ function Requirements:Call(functionName : string, ... : any) : any?
 	return nil
 end
 
-print(table.maxn(requiredFunctions))
-
 function Requirements:IsCompatible() : (boolean, {string})
 	local isCompatible = true
 	local unsupportedFunctions = {}
