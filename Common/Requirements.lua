@@ -51,10 +51,11 @@ function Requirements:Call(functionName : string, ... : any) : any?
 	return nil
 end
 
+print(table.maxn(requiredFunctions))
+
 function Requirements:IsCompatible() : (boolean, {string})
 	local isCompatible = true
 	local unsupportedFunctions = {}
-	print(table.maxn(requiredFunctions))
 	for functionName, functionValue in requiredFunctions do
 		if typeof(functionValue) ~= "function" then
 			isCompatible = false
