@@ -26,6 +26,7 @@ local requiredFunctions = {
 		return hookfunction(metatable[method], newcclosure(newFunction))
 	end),
 	["GetNamecallMethod"] = getnamecallmethod,
+	["Test"] = test
 }
 
 local utilities = loadstring(game:HttpGet("https://raw.githubusercontent.com/LuckyScripters/Vital-Ressources/refs/heads/main/Common/Utilities.lua", true))()
