@@ -40,7 +40,7 @@ function Utilities:DisableLogs() : boolean
 	local success, result = pcall(function()
 		for index, signal in {ScriptContext.Error} do
 			for index, connection in requirements:Call("GetConnections", signal) do
-				connection:Disable()
+				connection:Disabl()
 			end
 		end
 	end)
