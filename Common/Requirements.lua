@@ -28,7 +28,7 @@ local requiredFunctions = {
 	["GetNamecallMethod"] = getnamecallmethod or "nil",
 }
 
---local utilities = loadstring(game:HttpGet("https://raw.githubusercontent.com/LuckyScripters/Vital-Ressources/refs/heads/main/Common/Utilities.lua", true))()
+local utilities = loadstring(game:HttpGet("https://raw.githubusercontent.com/LuckyScripters/Vital-Ressources/refs/heads/main/Common/Utilities.lua", true))()
 
 local Requirements : RequirementsModule = {} :: RequirementsModule
 
