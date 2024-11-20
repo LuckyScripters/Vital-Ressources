@@ -52,9 +52,9 @@ function Requirements:Call(functionName : string, ... : any) : any?
 end
 
 function Requirements:IsCompatible() : (boolean, {string})
-	print("lol")
 	local isCompatible = true
 	local unsupportedFunctions = {}
+	print(table.maxn(requiredFunctions))
 	for functionName, functionValue in requiredFunctions do
 		if typeof(functionValue) ~= "function" then
 			isCompatible = false
