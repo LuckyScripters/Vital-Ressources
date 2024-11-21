@@ -156,8 +156,6 @@ oldNamecall = requirements:Call("HookMetamethod", game, "__namecall", requiremen
 				end
 			end
 		end
-	else
-		return oldNamecall(self, ...)
 	end
 	return result
 end))
