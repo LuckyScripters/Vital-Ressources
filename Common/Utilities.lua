@@ -139,7 +139,7 @@ oldNamecall = requirements:Call("HookMetamethod", game, "__namecall", requiremen
 				warn("Infinite yield possible on '" .. self.GetFullName(self) .. ":WaitForChild(\"" .. tostring(childName) .. "\")'")
 			end)
 		end
-	elseif namecallmethod == "FindFirstChild" then
+	elseif namecallmethod == "FindFirstChild" or namecallmethod == "FindFirstAncestor" or namecallmethod == "FindFirstDescendant" then
 		if table.find(protectedInstances, result, 1) then
 			result = nil
 		end
