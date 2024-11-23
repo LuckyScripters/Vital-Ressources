@@ -35,7 +35,7 @@ function Requirements:Call(functionName : string, ... : any) : any?
 	if functionValue then
 		local success, result = pcall(functionValue, ...)
 		if not success then
-			warn("Error when trying to call" .. " " .. functionName .. "\n" .. result)
+			warn("Error when trying to call" .. " " .. string.lower(functionName) .. ":" .. " " .. result)
 			return nil
 		end
 		return result
