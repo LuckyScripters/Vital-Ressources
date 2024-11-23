@@ -31,7 +31,7 @@ local requiredFunctions = {
 local Requirements : RequirementsModule = {} :: RequirementsModule
 
 function Requirements:Call(functionName : string, ... : any) : any?
-	local functionValue = requiredFunctions[functionName] or getgenv()[functionName]
+	local functionValue = requiredFunctions[functionName] or getrenv()[functionName]
 	if functionValue then
 		local success, result = pcall(functionValue, ...)
 		if not success then
