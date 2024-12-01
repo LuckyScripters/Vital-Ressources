@@ -1,8 +1,8 @@
 type ConfigManager = {
 	__index : ConfigManager,
 	new : () -> ConfigManager,
-	AddConfig : (self : ConfigSettings, name : string, settings : ConfigSettings) -> (),
-	GetSettings : (self : ConfigSettings, name : string) -> ConfigSettings?,
+	AddConfig : (self : ConfigSettings, name : string, config : {[string] : any}) -> (),
+	GetSettings : (self : ConfigSettings, name : string) -> {[string] : any}?,
 	ModifySetting : (self : ConfigSettings, name : string, key : string, value : any) -> boolean,
 	OnConfigChanged : (self : ConfigSettings, callback : (name : string, key : string, newValue : any, oldValue : any) -> ()) -> ()
 }
@@ -24,13 +24,14 @@ function ConfigManager.new() : ConfigManager
 	return self
 end
 
-function ConfigManager:GetSettings(name : string) : ConfigSettings?
+function ConfigManager:GetSettings(name : string) : {[string] : any}?
 	return self.Configs[name]
 end
 
-function ConfigManager:AddConfig(name : string, settings : ConfigSettings)
+function ConfigManager:AddConfig(name : string, config : {[string] : any})
 	if self.Configs[name] then
-		error("Configuration with this name already exists: " .. name)
+		warn("Configuration with this name already exists: " .. name)
+		return
 	end
 	self.Configs[name] = settings
 end
