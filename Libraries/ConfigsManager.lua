@@ -24,11 +24,11 @@ function ConfigManager.new() : ConfigSettings
 	return self
 end
 
-function ConfigManager.GetConfig(self : ConfigSettings, configName : string) : {[string] : any}?
+function ConfigManager:GetConfig(configName : string) : {[string] : any}?
 	return self.Configs[configName]
 end
 
-function ConfigManager.AddConfig(self : ConfigSettings, configName : string, config : {[string] : any})
+function ConfigManager:AddConfig(configName : string, config : {[string] : any})
 	if self.Configs[configName] then
 		warn("Configuration with this name already exists: " .. configName)
 		return
@@ -36,8 +36,8 @@ function ConfigManager.AddConfig(self : ConfigSettings, configName : string, con
 	self.Configs[configName] = config
 end
 
-function ConfigManager.OnConfigChanged(self : ConfigSettings, callback : (configName : string, key : string, newValue : any, oldValue : any) -> ()) : {Disconnect : () -> ()}
-	local id = HttpService:GenerateGUID()
+function ConfigManager:OnConfigChanged(callback : (configName : string, key : string, newValue : any, oldValue : any) -> ()) : {Disconnect : () -> ()}
+	local id = HttpService:GenerateGUID(false)
 	self.Listeners[id] = callback
 	return {
 		Disconnect = function()
@@ -46,7 +46,7 @@ function ConfigManager.OnConfigChanged(self : ConfigSettings, callback : (config
 	}
 end
 
-function ConfigManager.ModifyConfig(self : ConfigSettings, configName : string, key : string, value : any) : boolean
+function ConfigManager:ModifyConfig(configName : string, key : string, value : any) : boolean
 	local config = self.Configs[configName]
 	if not config then
 		return false
