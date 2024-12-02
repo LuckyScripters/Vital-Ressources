@@ -1,15 +1,15 @@
 type ConfigManager = {
 	__index : ConfigManager,
-	new : () -> ConfigManager,
-	AddConfig : (self : ConfigSettings, name : string, config : {[string] : any}) -> (),
-	GetSettings : (self : ConfigSettings, name : string) -> {[string] : any}?,
-	ModifySetting : (self : ConfigSettings, name : string, key : string, value : any) -> boolean,
-	OnConfigChanged : (self : ConfigSettings, callback : (name : string, key : string, newValue : any, oldValue : any) -> ()) -> ()
+	new : () -> ConfigSettings,
+	AddConfig : (self : ConfigSettings, configName : string, config : {[string] : any}) -> (),
+	GetConfig : (self : ConfigSettings, configName : string) -> {[string] : any}?,
+	ModifyConfig : (self : ConfigSettings, configName : string, key : string, value : any) -> boolean,
+	OnConfigChanged : (self : ConfigSettings, callback : (configName : string, key : string, newValue : any, oldValue : any) -> ()) -> {Disconnect : () -> ()}
 }
 
 type ConfigSettings = typeof(setmetatable({} :: {
-	Configs : {[string] : ConfigSettings},
-	Listerners : {[string] : {Disconnect : () -> ()}}
+	Configs : {[string] : {[string] : any}},
+	Listeners : {[string] : (configName : string, key : string, newValue : any, oldValue : any) -> ()}
 }, {} :: ConfigManager))
 
 local HttpService = game:GetService("HttpService")
@@ -17,37 +17,37 @@ local HttpService = game:GetService("HttpService")
 local ConfigManager : ConfigManager = {} :: ConfigManager
 ConfigManager.__index = ConfigManager
 
-function ConfigManager.new() : ConfigManager
+function ConfigManager.new() : ConfigSettings
 	local self = setmetatable({}, ConfigManager)
 	self.Configs = {}
 	self.Listeners = {}
 	return self
 end
 
-function ConfigManager:GetSettings(name : string) : {[string] : any}?
-	return self.Configs[name]
+function ConfigManager.GetConfig(self : ConfigSettings, configName : string) : {[string] : any}?
+	return self.Configs[configName]
 end
 
-function ConfigManager:AddConfig(name : string, config : {[string] : any})
-	if self.Configs[name] then
-		warn("Configuration with this name already exists: " .. name)
+function ConfigManager.AddConfig(self : ConfigSettings, configName : string, config : {[string] : any})
+	if self.Configs[configName] then
+		warn("Configuration with this name already exists: " .. configName)
 		return
 	end
-	self.Configs[name] = settings
+	self.Configs[configName] = config
 end
 
-function ConfigManager:OnConfigChanged(callback : (name : string, key : string, newValue : any, oldValue : any) -> ())
-	local id = HttpService:GenerateGUID(false)
+function ConfigManager.OnConfigChanged(self : ConfigSettings, callback : (configName : string, key : string, newValue : any, oldValue : any) -> ()) : {Disconnect : () -> ()}
+	local id = HttpService:GenerateGUID()
 	self.Listeners[id] = callback
 	return {
 		Disconnect = function()
 			self.Listeners[id] = nil
-		end,
+		end
 	}
 end
 
-function ConfigManager:ModifySetting(name : string, key : string, value : any) : boolean
-	local config = self.Configs[name]
+function ConfigManager.ModifyConfig(self : ConfigSettings, configName : string, key : string, value : any) : boolean
+	local config = self.Configs[configName]
 	if not config then
 		return false
 	end
@@ -55,7 +55,7 @@ function ConfigManager:ModifySetting(name : string, key : string, value : any) :
 	config[key] = value
 	if oldValue ~= value then
 		for id, callback in self.Listeners do
-			callback(name, key, value, oldValue)
+			callback(configName, key, value, oldValue)
 		end
 	end
 	return true
