@@ -4,28 +4,36 @@ type RequirementsModule = {
 }
 
 local requiredFunctions = {
-	["CloneRef"] = cloneref or "nil",
-	["IsFolder"] = isfolder or "nil",
-	["ReadFile"] = readfile or "nil",
-	["DelFolder"] = delfolder or "nil",
-	["WriteFile"] = writefile or "nil",
-	["GetUpValue"] = getupvalue or debug.getupvalue or "nil",
-	["MakeFolder"] = makefolder or "nil",
-	["CheckCaller"] = checkcaller or "nil",
-	["GetIdentity"] = (syn and syn.get_thread_identity) or get_thread_identity or getidentity or getthreadidentity or "nil",
-	["NewCClosure"] = newcclosure or "nil",
-	["SetIdentity"] = (syn and syn.set_thread_identity) or set_thread_identity or setidentity or setthreadidentity or "nil",
-	["SetReadOnly"] = setreadonly or "nil",
-	["GetMetatable"] = getrawmetatable or debug.getmetatable or "nil",
-	["HookFunction"] = hookfunction or detour_function or "nil",
-	["CloneFunction"] = clonefunction or "nil",
-	["GetConnections"] = get_signal_cons or getconnections or "nil",
-	["HookMetamethod"] = hookmetamethod or (hookFunction and function(instance : Instance, method : string, newFunction : (...any) -> (...any))
-		local metatable = getrawmetatable(instance) or debug.getmetatable(instance)
-		setreadonly(metatable, false)
-		return hookfunction(metatable[method], newcclosure(newFunction))
+    ["IsFile"] = isfile or "nil",
+    ["CloneRef"] = cloneref or "nil",
+    ["IsFolder"] = isfolder or "nil",
+    ["ReadFile"] = readfile or "nil",
+    ["DelFolder"] = delfolder or "nil",
+    ["WriteFile"] = writefile or "nil",
+    ["GetUpValue"] = getupvalue or debug.getupvalue or "nil",
+    ["MakeFolder"] = makefolder or "nil",
+    ["CheckCaller"] = checkcaller or "nil",
+    ["GetIdentity"] = (syn and syn.get_thread_identity) or get_thread_identity or getidentity or getthreadidentity or getthreadcontext or get_thread_context or "nil",
+    ["NewCClosure"] = newcclosure or "nil",
+    ["SetIdentity"] = (syn and syn.set_thread_identity) or set_thread_identity or setidentity or setthreadidentity or setthreadcontext or set_thread_context or "nil",
+    ["SetReadOnly"] = setreadonly or ((make_readonly and make_writeable) and function(tableToEdit : {[any] : any}, readonly : boolean)
+			if readonly then
+				make_readonly(tableToEdit)
+			else
+				make_writeable(tableToEdit)
+			end
+	end) "nil",
+    ["GetMetatable"] = getrawmetatable or debug.getmetatable or "nil",
+    ["HookFunction"] = hookfunction or detour_function or replaceclosure or "nil",
+    ["CloneFunction"] = clonefunction or "nil",
+    ["GetConnections"] = get_signal_cons or getconnections or "nil",
+    ["GetCustomAsset"] = getcustomasset or getsynasset or "nil",
+    ["HookMetamethod"] = hookmetamethod or (hookFunction and function(instance : Instance, method : string, newFunction : (...any) -> (...any))
+            local metatable = getrawmetatable(instance) or debug.getmetatable(instance)
+            setreadonly(metatable, false)
+            return hookfunction(metatable[method], newcclosure(newFunction))
 	end) or "nil",
-	["GetNamecallMethod"] = getnamecallmethod or "nil",
+    ["GetNamecallMethod"] = getnamecallmethod or "nil",
 }
 
 local Requirements : RequirementsModule = {} :: RequirementsModule
