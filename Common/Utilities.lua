@@ -7,9 +7,9 @@ type UtilitiesModule = {
 	ThrowErrorUI : (self : UtilitiesModule, title : string, text : string, options : {{Text : string, Callback : () -> ()}}?) -> ()
 }
 
-local CoreGui = requirements:Call("CloneRef", game:GetService("CoreGui"))
-local HttpService = requirements:Call("CloneRef", game:GetService("HttpService"))
-local ScriptContext = requirements:Call("CloneRef", game:GetService("ScriptContext"))
+local CoreGui = cloneref(game:GetService("CoreGui"))
+local HttpService = cloneref(game:GetService("HttpService"))
+local ScriptContext = cloneref(game:GetService("ScriptContext"))
 
 local robloxGui = CoreGui.RobloxGui
 local modules = robloxGui.Modules
