@@ -2,7 +2,7 @@ type UtilitiesModule = {
 	ProtectInstance : (self : UtilitiesModule, instance : Instance) -> (),
 	UnprotectInstance : (self : UtilitiesModule, instance : Instance) -> (),
 	DisableLogs : (self : UtilitiesModule) -> boolean,
-	GetCustomFont : (fontName : string, fontWeight : number, fontStyle : string, fontUrl : string) -> string,
+	GetCustomFont : (fontName : string, fontWeight : number, fontStyle : string) -> string,
 	Create : (self : UtilitiesModule, className : string, instanceType : "Instance" | "Drawing", protected : boolean, properties : {[string] : any}) -> Instance | {[string] : any}?,
 	ThrowErrorUI : (self : UtilitiesModule, title : string, text : string, options : {{Text : string, Callback : () -> ()}}?) -> ()
 }
@@ -52,7 +52,7 @@ function Utilities:DisableLogs() : boolean
 	return true
 end
 
-function Utilities:GetCustomFont(fontName : string, fontWeight : number, fontStyle : string, fontUrl : string) : string
+function Utilities:GetCustomFont(fontName : string, fontWeight : number, fontStyle : string) : string
 	local fontFile = fontName .. ".ttf"
 	local fontAsset = fontName .. ".font"
 	local baseUrl = "https://github.com/LuckyScripters/Vital-Ressources/raw/main/CustomFonts/"
