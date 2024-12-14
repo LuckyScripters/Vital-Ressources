@@ -144,6 +144,9 @@ oldIndex = requirements:Call("HookMetamethod", game, "__index", requirements:Cal
 	if requirements:Call("CheckCaller") then
 		return oldIndex(self, index)
 	end
+	if index == "Destroy" then
+		print(requirements:Call("CheckCaller"))
+	end
 	if table.find(protectedInstances, self, 1) then
 		return nil
 	end
