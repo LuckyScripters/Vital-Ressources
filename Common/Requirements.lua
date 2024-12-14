@@ -15,6 +15,7 @@ local requiredFunctions = {
     ["CheckCaller"] = checkcaller or "nil",
     ["GetIdentity"] = (syn and syn.get_thread_identity) or get_thread_identity or getidentity or getthreadidentity or getthreadcontext or get_thread_context or "nil",
     ["NewCClosure"] = newcclosure or "nil",
+    ["NewLClosure"] = newlclosure or "nil",
     ["SetIdentity"] = (syn and syn.set_thread_identity) or set_thread_identity or setidentity or setthreadidentity or setthreadcontext or set_thread_context or "nil",
     ["SetReadOnly"] = setreadonly or ((make_readonly and make_writeable) and function(tableToEdit : {[any] : any}, readonly : boolean)
 			if readonly then
