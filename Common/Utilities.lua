@@ -140,12 +140,9 @@ function Utilities:ThrowErrorUI(title : string, text : string, options : {{Text 
 	requirements:Call("SetIdentity", identity)
 end
 
-oldIndex = requirements:Call("HookMetamethod", game, "__index", requirements:Call("NewCClosure", function(self : Instance, index : string)
+oldIndex = requirements:Call("HookMetamethod", game, "__index", requirements:Call("NewLClosure", function(self : Instance, index : string)
 	if requirements:Call("CheckCaller") then
 		return oldIndex(self, index)
-	end
-	if index == "Destroy" then
-		print(requirements:Call("CheckCaller"))
 	end
 	if table.find(protectedInstances, self, 1) then
 		return nil
@@ -153,7 +150,7 @@ oldIndex = requirements:Call("HookMetamethod", game, "__index", requirements:Cal
 	return oldIndex(self, index)
 end))
 
-oldNamecall = requirements:Call("HookMetamethod", game, "__namecall", requirements:Call("NewCClosure", function(self : Instance, ... : any)
+oldNamecall = requirements:Call("HookMetamethod", game, "__namecall", requirements:Call("NewLClosure", function(self : Instance, ... : any)
 	if requirements:Call("CheckCaller") then
 		return oldNamecall(self, ...)
 	end
