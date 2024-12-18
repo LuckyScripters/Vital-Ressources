@@ -21,8 +21,8 @@ local Utilities : UtilitiesModule = {} :: UtilitiesModule
 local oldIndex = nil
 local oldNamecall = nil
 
-local newDrawing = requirements:Call("NewCClosure", Drawing.new)
-local newInstance = requirements:Call("NewCClosure", Instance.new)
+local newDrawing = requirements:Call("CloneFunction", Drawing.new)
+local newInstance = requirements:Call("CloneFunction", Instance.new)
 
 local protectedInstances = {}
 
@@ -103,7 +103,7 @@ end
 function Utilities:ThrowErrorUI(title : string, text : string, options : {{Text : string, Callback : () -> ()}}?)
 	local identity = requirements:Call("GetIdentity")
 	local remadeOptions = {}
-	requirements:Call("SetIdentity", 8)
+	requirements:Call("SetIdentity", 6)
 	local errorPrompt = require(modules.ErrorPrompt)
 	local errorGui = Utilities:Create("ScreenGui", "Instance", true, {
 		Parent = CoreGui
@@ -112,7 +112,7 @@ function Utilities:ThrowErrorUI(title : string, text : string, options : {{Text 
 	local prompt = errorPrompt.new("Default")
 	prompt._hideErrorCode = true
 	prompt:setErrorTitle(title)
-	if options then
+	if typeof(options) == "table" and table.maxn(options) > 0 then
 		for index, option in options do
 			table.insert(remadeOptions, {
 				Text = option.Text,
@@ -128,7 +128,7 @@ function Utilities:ThrowErrorUI(title : string, text : string, options : {{Text 
 			})
 		end
 	end
-	prompt:updateButtons(remadeOptions ~= {} and remadeOptions or {{
+	prompt:updateButtons(table.maxn(remadeOptions) > 0 and remadeOptions or {{
 		Text = "OK",
 		Callback = function()
 			prompt:_close()
