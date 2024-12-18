@@ -83,6 +83,7 @@ function Utilities:Create(className : string, instanceType : "Instance" | "Drawi
 		if protected then
 			Utilities:ProtectInstance(instance)
 		end
+		print(instance, newInstance)
 		for propertieName, propertieValue in properties do
 			instance[propertieName] = propertieValue
 		end
