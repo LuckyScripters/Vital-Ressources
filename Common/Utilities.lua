@@ -21,8 +21,8 @@ local Utilities : UtilitiesModule = {} :: UtilitiesModule
 local oldIndex = nil
 local oldNamecall = nil
 
-local newDrawing = requirements:Call("CloneFunction", Drawing.new)
-local newInstance = requirements:Call("CloneFunction", Instance.new)
+local newDrawing = requirements:Call("NewLClosure", Drawing.new)
+local newInstance = requirements:Call("NewLClosure", Instance.new)
 
 local protectedInstances = {}
 
@@ -83,7 +83,6 @@ function Utilities:Create(className : string, instanceType : "Instance" | "Drawi
 		if protected then
 			Utilities:ProtectInstance(instance)
 		end
-		print(instance, newInstance)
 		for propertieName, propertieValue in properties do
 			instance[propertieName] = propertieValue
 		end
