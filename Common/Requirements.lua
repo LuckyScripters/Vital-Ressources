@@ -17,6 +17,7 @@ local requiredFunctions = {
     ["NewCClosure"] = newcclosure or "nil",
     ["NewLClosure"] = newlclosure or function(callback : (...any) -> ...any)
 		return function(...)
+			setthreadidentity(8)
 			return callback(...)
 		end
 	end or "nil",
