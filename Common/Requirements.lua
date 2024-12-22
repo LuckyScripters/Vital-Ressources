@@ -49,7 +49,7 @@ function Requirements:Call(functionName : string, ... : any) : any?
 		end
 		return result
 	end
-	warn("Failed to get" .. " " .. functionName .. " " .. "because your executor doesn't support it")
+	warn("Failed to get" .. " " .. string.lower(functionName) .. " " .. "because your executor doesn't support it")
 	return nil
 end
 
