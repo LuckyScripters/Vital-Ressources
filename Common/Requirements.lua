@@ -41,7 +41,7 @@ local Requirements : RequirementsModule = {} :: RequirementsModule
 
 function Requirements:Call(functionName : string, ... : any) : any?
 	local functionValue = requiredFunctions[functionName] or getrenv()[functionName]
-	if functionValue then
+	if functionValue and typeof(functionValue) == "function" then
 		local success, result = pcall(functionValue, ...)
 		if not success then
 			warn("Error when trying to call" .. " " .. string.lower(functionName) .. ":" .. " " .. result)
@@ -49,6 +49,7 @@ function Requirements:Call(functionName : string, ... : any) : any?
 		end
 		return result
 	end
+	warn("Failed to get" .. " " .. functionName .. " " .. "because your executor doesn't support it")
 	return nil
 end
 
