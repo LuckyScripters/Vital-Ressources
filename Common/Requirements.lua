@@ -17,8 +17,11 @@ local requiredFunctions = {
     ["NewCClosure"] = newcclosure or "nil",
     ["NewLClosure"] = newlclosure or function(callback : (...any) -> ...any)
 		return function(...)
+			local oldThreadIdentity = getthreadidentity()
 			setthreadidentity(8)
-			return callback(...)
+			local result = callback(...)
+			setthreadidentity(oldThreadIdentity)
+			return result
 		end
 	end or "nil",
     ["SetIdentity"] = (syn and syn.set_thread_identity) or set_thread_identity or setidentity or setthreadidentity or setthreadcontext or set_thread_context or "nil",
