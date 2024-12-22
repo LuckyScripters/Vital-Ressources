@@ -15,14 +15,18 @@ local requiredFunctions = {
     ["CheckCaller"] = checkcaller or "nil",
     ["GetIdentity"] = (syn and syn.get_thread_identity) or get_thread_identity or getidentity or getthreadidentity or getthreadcontext or get_thread_context or "nil",
     ["NewCClosure"] = newcclosure or "nil",
-    ["NewLClosure"] = newlclosure or "nil",
+    ["NewLClosure"] = newlclosure or function(callback : (...any) -> ...any)
+		return function(...)
+			return callback(...)
+		end
+	end or "nil",
     ["SetIdentity"] = (syn and syn.set_thread_identity) or set_thread_identity or setidentity or setthreadidentity or setthreadcontext or set_thread_context or "nil",
     ["SetReadOnly"] = setreadonly or ((make_readonly and make_writeable) and function(tableToEdit : {[any] : any}, readonly : boolean)
-			if readonly then
-				make_readonly(tableToEdit)
-			else
-				make_writeable(tableToEdit)
-			end
+		if readonly then
+			make_readonly(tableToEdit)
+		else
+			make_writeable(tableToEdit)
+		end
 	end) "nil",
     ["GetMetatable"] = getrawmetatable or debug.getmetatable or "nil",
     ["HookFunction"] = hookfunction or detour_function or replaceclosure or "nil",
@@ -30,9 +34,9 @@ local requiredFunctions = {
     ["GetConnections"] = get_signal_cons or getconnections or "nil",
     ["GetCustomAsset"] = getcustomasset or getsynasset or "nil",
     ["HookMetamethod"] = hookmetamethod or (hookFunction and function(instance : Instance, method : string, newFunction : (...any) -> (...any))
-            local metatable = getrawmetatable(instance) or debug.getmetatable(instance)
-            setreadonly(metatable, false)
-            return hookfunction(metatable[method], newcclosure(newFunction))
+		local metatable = getrawmetatable(instance) or debug.getmetatable(instance)
+		setreadonly(metatable, false)
+		return hookfunction(metatable[method], newcclosure(newFunction))
 	end) or "nil",
     ["GetNamecallMethod"] = getnamecallmethod or "nil",
 }
