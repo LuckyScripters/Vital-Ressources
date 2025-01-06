@@ -31,7 +31,7 @@ local requiredFunctions = {
 		else
 			make_writeable(tableToEdit)
 		end
-	end) "nil",
+	end) or "nil",
     ["GetMetatable"] = getrawmetatable or debug.getmetatable or "nil",
     ["HookFunction"] = hookfunction or detour_function or replaceclosure or "nil",
     ["CloneFunction"] = clonefunction or "nil",
