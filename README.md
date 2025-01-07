@@ -30,7 +30,6 @@ However, any attempt to replicate, fork, or incorporate these resources into oth
 ### 🛑 Important
 
 > "All Rights Reserved © 2025 Vital"
-> 
 > Unauthorized use, distribution, or replication of these resources is strictly prohibited.
 
 Thank you for respecting the hard work and effort that went into creating these resources! 😊
