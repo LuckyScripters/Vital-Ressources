@@ -1,6 +1,7 @@
 type UtilitiesModule = {
 	ProtectInstance : (self : UtilitiesModule, instance : Instance) -> (),
 	UnprotectInstance : (self : UtilitiesModule, instance : Instance) -> (),
+    GetPlayerInfo : (self : UtilitiesModule, player : Player) -> {Ping : number, Health : number, HealthBonus : number, Primary : string, Secondary : string}?,
 	DisableLogs : (self : UtilitiesModule) -> boolean,
 	GetCustomFont : (fontName : string, fontWeight : number, fontStyle : string) -> string,
 	Create : (self : UtilitiesModule, className : string, instanceType : "Instance" | "Drawing", protected : boolean, properties : {[string] : any}) -> Instance | {[string] : any}?,
@@ -8,6 +9,7 @@ type UtilitiesModule = {
 }
 
 local CoreGui = cloneref(game:GetService("CoreGui"))
+local LogService = cloneref(game:GetService("LogService"))
 local HttpService = cloneref(game:GetService("HttpService"))
 local ScriptContext = cloneref(game:GetService("ScriptContext"))
 
@@ -36,6 +38,14 @@ function Utilities:UnprotectInstance(instance : Instance)
 	if table.find(protectedInstances, instance, 1) then
 		table.remove(protectedInstances, table.find(protectedInstances, instance, 1))
 	end
+end
+
+function Utilities:GetPlayerInfo(player : Player) : {Ping : number, Health : number, HealthBonus : number, Primary : string, Secondary : string}?
+    local playerStats = player:FindFirstChild("Stats")
+    if not playerStats then
+        return nil
+    end
+    return {Ping = playerStats.Ping.Value * 1000, Health = playerStats.Health.Value, HealthBonus = playerStats.HealthBonus.Value, Primary = playerStats.Primary.Value, Secondary = playerStats.Secondary.Value}
 end
 
 function Utilities:DisableLogs() : boolean
@@ -161,9 +171,7 @@ oldNamecall = requirements:Call("HookMetamethod", game, "__namecall", requiremen
 		if table.find(protectedInstances, result, 1) then
 			local childName, timeout = arguments[1], arguments[2]
 			result = nil
-			task.delay(timeout or 5, function()
-				warn("Infinite yield possible on '" .. self.GetFullName(self) .. ":WaitForChild(\"" .. tostring(childName) .. "\")'")
-			end)
+			task.delay(timeout or 5, warn, "Infinite yield possible on '" .. self.GetFullName(self) .. ":WaitForChild(\"" .. tostring(childName) .. "\")'")
 		end
 	elseif namecallmethod == "FindFirstChild" or namecallmethod == "FindFirstAncestor" or namecallmethod == "FindFirstDescendant" then
 		if table.find(protectedInstances, result, 1) then
