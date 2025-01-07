@@ -1,4 +1,4 @@
-# <img src="https://cdn.discordapp.com/icons/1252823989479538708/d8bb675bc2d5f25e7801729e32015b51.webp?size=240" alt="Logo" width="35" style="border-radius: 25px;" onload = "alert('lol')"> Script Resources Repository
+# <img src="https://cdn.discordapp.com/icons/1252823989479538708/d8bb675bc2d5f25e7801729e32015b51.webp?size=240" alt="Logo" width="35" style="border-radius: 25px;"> Script Resources Repository
 
 Welcome to this repository! This collection of scripts and resources is provided as-is for **reference purposes only**.
 
