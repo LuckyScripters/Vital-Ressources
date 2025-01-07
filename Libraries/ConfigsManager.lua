@@ -12,8 +12,6 @@ type ConfigSettings = typeof(setmetatable({} :: {
 	Listeners : {[string] : (configName : string, key : string, newValue : any, oldValue : any) -> ()}
 }, {} :: ConfigManager))
 
-local HttpService = game:GetService("HttpService")
-
 local ConfigManager : ConfigManager = {} :: ConfigManager
 ConfigManager.__index = ConfigManager
 
