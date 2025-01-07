@@ -1,4 +1,4 @@
-# 🌟 Script Resources Repository ![Logo](https://cdn.discordapp.com/icons/1252823989479538708/d8bb675bc2d5f25e7801729e32015b51.webp?size=40)
+# 🌟 Script Resources Repository <img src="https://cdn.discordapp.com/icons/1252823989479538708/d8bb675bc2d5f25e7801729e32015b51.webp?size=240" alt="Logo" width="100">
 
 Welcome to this repository! This collection of scripts and resources is provided as-is for **reference purposes only**.
 
