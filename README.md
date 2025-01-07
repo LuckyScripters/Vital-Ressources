@@ -22,7 +22,6 @@ However, any attempt to replicate, fork, or incorporate these resources into oth
 ## 🌈 Features
 
 - Clean, well-structured examples to **understand** specific coding concepts.
-- Carefully commented scripts to **enhance comprehension**.
 - Provided in a clear and **easy-to-navigate structure**.
 
 ---
