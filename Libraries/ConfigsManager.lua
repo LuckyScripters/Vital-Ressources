@@ -37,7 +37,7 @@ function ConfigManager:AddConfig(configName : string, config : {[string] : any})
 end
 
 function ConfigManager:OnConfigChanged(callback : (configName : string, key : string, newValue : any, oldValue : any) -> ()) : {Disconnect : () -> ()}
-	local id = HttpService:GenerateGUID(false)
+	local id = table.maxn(self.Listeners) + 1
 	self.Listeners[id] = callback
 	return {
 		Disconnect = function()
