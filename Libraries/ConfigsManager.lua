@@ -44,6 +44,7 @@ end
 
 function ConfigManager:SetGlobalConfig(configName : string, value : any)
     if not globalConfigs[configName] then
+	print("no fuck")
         return
     end
     print("fuck")
