@@ -1,12 +1,12 @@
 type ConfigManager = {
-    IsMainFolderLoaded : boolean,
+    	IsMainFolderLoaded : boolean,
 	__index : ConfigManager,
 	new : (name : string) -> ConfigSettings?,
 	LoadLibrary : () -> (),
 	AddConfig : (self : ConfigSettings, configName : string, config : {[string] : any}) -> (),
 	GetConfig : (self : ConfigSettings, configName : string) -> {[string] : any}?,
-    LoadConfig : () -> (),
-    SaveConfig : () -> (),
+    	LoadConfig : () -> (),
+    	SaveConfig : () -> (),
 	ModifyConfig : (self : ConfigSettings, configName : string, key : string, value : any) -> boolean,
 	OnConfigChanged : (self : ConfigSettings, callback : (configName : string, key : string, newValue : any, oldValue : any) -> ()) -> {Disconnect : () -> ()}
 }
@@ -46,6 +46,7 @@ function ConfigManager:SetGlobalConfig(configName : string, value : any)
     if not globalConfigs[configName] then
         return
     end
+    print("fuck")
     globalConfigs[configName] = value
     local jsonData = HttpService:JSONEncode(globalConfigs)
     writefile(globalConfigs.MainFolderName .. "/" .. "__GLOBAL.json", jsonData)
