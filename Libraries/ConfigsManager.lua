@@ -42,6 +42,15 @@ function ConfigManager.new(name : string) : ConfigSettings
 	return self
 end
 
+function ConfigManager:SetGlobalConfig(configName : string, value : any)
+    if not globalConfigs[configName] then
+        return
+    end
+    globalConfigs[configName] = value
+    local jsonData = HttpService:JSONEncode(globalConfigs)
+    writefile(globalConfigs.MainFolderName .. "/" .. "__GLOBAL.json", jsonData)
+end
+
 function ConfigManager:LoadLibrary()
 	if ConfigManager.IsMainFolderLoaded then
 		return
