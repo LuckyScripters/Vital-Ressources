@@ -86,6 +86,20 @@ function ConfigManager:SaveConfig()
     end
 end
 
+function ConfigManager:LoadConfig()
+    if not isfolder(ConfigManager.MainFolderName .. "/" .. self.Name) then
+        return
+    end
+    for configName, config in self.Configs do
+        if not isfolder(ConfigManager.MainFolderName .. "/" .. self.Name .. "/" .. configName) then
+            continue
+        end
+        local jsonData = readfile(ConfigManager.MainFolderName .. "/" .. self.Name .. "/" .. configName .. "/" .. "Data.json")
+        local decodedData = HttpService:JSONDecode(jsonData)
+        self.Configs[configName] = decodedData
+    end
+end
+
 function ConfigManager:ModifyConfig(configName : string, key : string, value : any) : boolean
 	local config = self.Configs[configName]
 	if not config then
