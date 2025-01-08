@@ -112,39 +112,36 @@ end
 
 function Utilities:ThrowErrorUI(title : string, text : string, options : {{Text : string, Callback : () -> ()}}?)
 	local identity = requirements:Call("GetIdentity")
-	local remadeOptions = {}
 	requirements:Call("SetIdentity", 6)
 	local errorPrompt = require(modules.ErrorPrompt)
-	local errorGui = Utilities:Create("ScreenGui", "Instance", true, {
-		Parent = CoreGui
-	})
-	errorGui.Name = "RobloxErrorPrompt"
+	local errorGui = Utilities:Create("ScreenGui", "Instance", true, {Parent = CoreGui, Name = "RobloxErrorPrompt"})
 	local prompt = errorPrompt.new("Default")
 	prompt._hideErrorCode = true
 	prompt:setErrorTitle(title)
-	if typeof(options) == "table" and table.maxn(options) > 0 then
-		for index, option in options do
-			table.insert(remadeOptions, {
-				Text = option.Text,
-				Callback = function()
-					if option.Callback then
-						option.Callback()
-					end
-					prompt:_close()
-					Utilities:UnprotectInstance(errorGui)
-					errorGui:Destroy()
-				end,
-				Primary = index == 1
-			})
-		end
+	local remadeOptions = (typeof(options) == "table" and table.maxn(options) > 0) and table.create(table.maxn(options)) or {{
+	    Text = "OK",
+	    Callback = function() 
+		prompt:_close() 
+	    end,
+	    Primary = true
+	}}
+	if table.maxn(remadeOptions) > 1 then
+	    for index, option in options do
+	        remadeOptions[index] = {
+	            Text = option.Text,
+	            Callback = function()
+	                if option.Callback then 
+				option.Callback() 
+			end
+	                prompt:_close()
+	                Utilities:UnprotectInstance(errorGui)
+	                errorGui:Destroy()
+	            end,
+	            Primary = index == 1
+	        }
+	    end
 	end
-	prompt:updateButtons(table.maxn(remadeOptions) > 0 and remadeOptions or {{
-		Text = "OK",
-		Callback = function()
-			prompt:_close()
-		end,
-		Primary = true
-	}}, "Default")
+	prompt:updateButtons(remadeOptions, "Default")
 	prompt:setParent(errorGui)
 	prompt:_open(text)
 	requirements:Call("SetIdentity", identity)
