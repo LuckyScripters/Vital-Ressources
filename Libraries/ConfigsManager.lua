@@ -14,6 +14,8 @@ type ConfigSettings = typeof(setmetatable({} :: {
 	Listeners : {[string] : (configName : string, key : string, newValue : any, oldValue : any) -> ()}
 }, {} :: ConfigManager))
 
+local HttpService = cloneref(game:GetService("HttpService"))
+
 local ConfigManager : ConfigManager = {MainFolderName = "VitalMainSettings", IsMainFolderLoaded = false} :: ConfigManager
 ConfigManager.__index = ConfigManager
 
@@ -51,7 +53,11 @@ function ConfigManager:AddConfig(configName : string, config : {[string] : any})
 		warn("Configuration with this name already exists: " .. configName)
 		return
 	end
-	makefolder(ConfigManager.MainFolderName .. "/" .. self.Name .. "/" .. configName)
+	if not isfolder(ConfigManager.MainFolderName .. "/" .. self.Name .. "/" .. configName) then
+        makefolder(ConfigManager.MainFolderName .. "/" .. self.Name .. "/" .. configName)
+    end
+    local jsonData = HttpService:JSONEncode(config)
+    writefile(ConfigManager.MainFolderName .. "/" .. self.Name .. "/" .. configName .. "/" .. "Data.json", jsonData)
 	self.Configs[configName] = config
 end
 
@@ -72,6 +78,8 @@ function ConfigManager:ModifyConfig(configName : string, key : string, value : a
 	end
 	local oldValue = config[key]
 	config[key] = value
+    local jsonData = HttpService:JSONEncode(config)
+    writefile(ConfigManager.MainFolderName .. "/" .. self.Name .. "/" .. configName .. "/" .. "Data.json", jsonData)
 	if oldValue ~= value then
 		for id, callback in self.Listeners do
 			callback(configName, key, value, oldValue)
