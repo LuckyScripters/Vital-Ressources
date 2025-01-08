@@ -37,8 +37,8 @@ function ConfigManager:LoadMainFolder()
 		return
 	end
 	ConfigManager.IsMainFolderLoaded = true
-	if not isfolder(configManager.MainFolderName) then
-		makefolder(configManager.MainFolderName)
+	if not isfolder(ConfigManager.MainFolderName) then
+		makefolder(ConfigManager.MainFolderName)
 	end
 end
 
