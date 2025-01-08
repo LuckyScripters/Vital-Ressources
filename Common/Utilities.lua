@@ -114,7 +114,7 @@ function Utilities:ThrowErrorUI(title : string, text : string, options : {{Text 
 	local identity = requirements:Call("GetIdentity")
 	requirements:Call("SetIdentity", 6)
 	local errorPrompt = require(modules.ErrorPrompt)
-	local errorGui = Utilities:Create("ScreenGui", "Instance", true, {Parent = CoreGui, Name = "RobloxErrorPrompt"})
+	local errorGui = Utilities:Create("ScreenGui", "Instance", true, {Name = "RobloxErrorPrompt", Parent = CoreGui})
 	local prompt = errorPrompt.new("Default")
 	prompt._hideErrorCode = true
 	prompt:setErrorTitle(title)
