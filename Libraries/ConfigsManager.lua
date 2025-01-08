@@ -16,7 +16,7 @@ type ConfigSettings = typeof(setmetatable({} :: {
 
 local HttpService = cloneref(game:GetService("HttpService"))
 
-local ConfigManager : ConfigManager = {MainFolderName = "VitalMainSettings", IsMainFolderLoaded = false} :: ConfigManager
+local ConfigManager : ConfigManager = {MainFolderName = "VitalMainSettings", IsAutoSaveEnabled = false, IsMainFolderLoaded = false} :: ConfigManager
 ConfigManager.__index = ConfigManager
 
 function ConfigManager.new(name : string) : ConfigSettings
@@ -28,7 +28,7 @@ function ConfigManager.new(name : string) : ConfigSettings
 	self.Name = name
 	self.Configs = {}
 	self.Listeners = {}
-	if not isfolder(ConfigManager.MainFolderName .. "/" .. name) then
+	if ConfigManager.IsAutoSaveEnabled and not isfolder(ConfigManager.MainFolderName .. "/" .. name) then
 		makefolder(ConfigManager.MainFolderName .. "/" .. name)
 	end
 	return self
@@ -53,11 +53,13 @@ function ConfigManager:AddConfig(configName : string, config : {[string] : any})
 		warn("Configuration with this name already exists: " .. configName)
 		return
 	end
-	if not isfolder(ConfigManager.MainFolderName .. "/" .. self.Name .. "/" .. configName) then
+	if ConfigManager.IsAutoSaveEnabled and not isfolder(ConfigManager.MainFolderName .. "/" .. self.Name .. "/" .. configName) then
         makefolder(ConfigManager.MainFolderName .. "/" .. self.Name .. "/" .. configName)
     end
-    local jsonData = HttpService:JSONEncode(config)
-    writefile(ConfigManager.MainFolderName .. "/" .. self.Name .. "/" .. configName .. "/" .. "Data.json", jsonData)
+    if ConfigManager.IsAutoSaveEnabled then
+        local jsonData = HttpService:JSONEncode(config)
+        writefile(ConfigManager.MainFolderName .. "/" .. self.Name .. "/" .. configName .. "/" .. "Data.json", jsonData)
+    end
 	self.Configs[configName] = config
 end
 
@@ -71,6 +73,19 @@ function ConfigManager:OnConfigChanged(callback : (configName : string, key : st
 	}
 end
 
+function ConfigManager:SaveConfig()
+    if not isfolder(ConfigManager.MainFolderName .. "/" .. self.Name) then
+        makefolder(ConfigManager.MainFolderName .. "/" .. self.Name)
+    end
+    for configName, config in self.Configs do
+        if not isfolder(ConfigManager.MainFolderName .. "/" .. self.Name .. "/" .. configName) then
+            makefolder(ConfigManager.MainFolderName .. "/" .. self.Name .. "/" .. configName)
+        end
+        local jsonData = HttpService:JSONEncode(config)
+        writefile(ConfigManager.MainFolderName .. "/" .. self.Name .. "/" .. configName .. "/" .. "Data.json", jsonData)
+    end
+end
+
 function ConfigManager:ModifyConfig(configName : string, key : string, value : any) : boolean
 	local config = self.Configs[configName]
 	if not config then
@@ -78,8 +93,10 @@ function ConfigManager:ModifyConfig(configName : string, key : string, value : a
 	end
 	local oldValue = config[key]
 	config[key] = value
-    local jsonData = HttpService:JSONEncode(config)
-    writefile(ConfigManager.MainFolderName .. "/" .. self.Name .. "/" .. configName .. "/" .. "Data.json", jsonData)
+    if ConfigManager.IsAutoSaveEnabled then
+        local jsonData = HttpService:JSONEncode(config)
+        writefile(ConfigManager.MainFolderName .. "/" .. self.Name .. "/" .. configName .. "/" .. "Data.json", jsonData)
+    end
 	if oldValue ~= value then
 		for id, callback in self.Listeners do
 			callback(configName, key, value, oldValue)
