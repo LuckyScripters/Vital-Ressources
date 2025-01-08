@@ -44,10 +44,8 @@ end
 
 function ConfigManager:SetGlobalConfig(configName : string, value : any)
     if not globalConfigs[configName] then
-	print("no fuck")
         return
     end
-    print("fuck")
     globalConfigs[configName] = value
     local jsonData = HttpService:JSONEncode(globalConfigs)
     writefile(globalConfigs.MainFolderName .. "/" .. "__GLOBAL.json", jsonData)
