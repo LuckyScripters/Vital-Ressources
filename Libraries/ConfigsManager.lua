@@ -2,6 +2,7 @@ type ConfigManager = {
     	IsMainFolderLoaded : boolean,
 	__index : ConfigManager,
 	new : (name : string) -> ConfigSettings?,
+	SetGlobalConfig : () -> (),
 	LoadLibrary : () -> (),
 	AddConfig : (self : ConfigSettings, configName : string, config : {[string] : any}) -> (),
 	GetConfig : (self : ConfigSettings, configName : string) -> {[string] : any}?,
