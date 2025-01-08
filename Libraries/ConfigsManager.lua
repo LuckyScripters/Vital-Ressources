@@ -36,7 +36,6 @@ function ConfigManager:LoadMainFolder()
 	if ConfigManager.IsMainFolderLoaded then
 		return
 	end
-	print("You see me")
 	ConfigManager.IsMainFolderLoaded = true
 	if not isfolder(ConfigManager.MainFolderName) then
 		makefolder(ConfigManager.MainFolderName)
