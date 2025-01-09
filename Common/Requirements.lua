@@ -37,7 +37,7 @@ local requiredFunctions = {
     ["CloneFunction"] = clonefunction or "nil",
     ["GetConnections"] = get_signal_cons or getconnections or "nil",
     ["GetCustomAsset"] = getcustomasset or getsynasset or "nil",
-    ["HookMetamethod"] = hookmetamethod or (hookFunction and function(instance : Instance, method : string, newFunction : (...any) -> (...any))
+    ["HookMetamethod"] = hookmetamethod or (hookfunction and function(instance : Instance, method : string, newFunction : (...any) -> (...any))
 		local metatable = getrawmetatable(instance) or debug.getmetatable(instance)
 		setreadonly(metatable, false)
 		return hookfunction(metatable[method], newcclosure(newFunction))
