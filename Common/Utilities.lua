@@ -118,7 +118,7 @@ function Utilities:ThrowErrorUI(title : string, text : string, options : {{Text 
 	local prompt = errorPrompt.new("Default")
 	prompt._hideErrorCode = true
 	prompt:setErrorTitle(title)
-	local remadeOptions = (typeof(options) == "table" and table.maxn(options) > 0) and table.create(table.maxn(options)) or {{
+	local remadeOptions = (typeof(options) == "table" and table.maxn(options) > 0) and table.create(table.maxn(options), nil) or {{
 	    Text = "OK",
 	    Callback = function() 
 		prompt:_close() 
