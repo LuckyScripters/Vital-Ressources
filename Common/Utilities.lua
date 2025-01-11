@@ -125,8 +125,7 @@ function Utilities:ThrowErrorUI(title : string, text : string, options : {{Text 
 	    end,
 	    Primary = true
 	}}
-	print(table.maxn(remadeOptions))
-	if table.maxn(remadeOptions) > 0 then
+	if table.maxn(remadeOptions) < 1 then
 	    for index, option in options do
 	        remadeOptions[index] = {
 	            Text = option.Text,
