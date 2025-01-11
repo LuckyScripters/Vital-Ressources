@@ -14,7 +14,7 @@ local requiredFunctions = {
     ["MakeFolder"] = makefolder or "nil",
     ["CheckCaller"] = checkcaller or "nil",
     ["GetIdentity"] = (syn and syn.get_thread_identity) or get_thread_identity or getidentity or getthreadidentity or getthreadcontext or get_thread_context or "nil",
-	["IsRenderObj"] = isrenderobj or "nil",
+    ["IsRenderObj"] = isrenderobj or "nil",
     ["NewCClosure"] = newcclosure or "nil",
     ["NewLClosure"] = newlclosure or function(callback : (...any) -> ...any)
 		return function(...)
@@ -44,8 +44,8 @@ local requiredFunctions = {
 		return hookfunction(metatable[method], newcclosure(newFunction))
 	end) or "nil",
     ["GetNamecallMethod"] = getnamecallmethod or "nil",
-	["GetRenderProperty"] = getrenderproperty or "nil",
-	["SetRenderProperty"] = setrenderproperty or "nil"
+    ["GetRenderProperty"] = getrenderproperty or "nil",
+    ["SetRenderProperty"] = setrenderproperty or "nil"
 }
 
 local Requirements : RequirementsModule = {} :: RequirementsModule
