@@ -40,12 +40,18 @@ function Utilities:UnprotectInstance(instance : Instance)
 	end
 end
 
-function Utilities:GetPlayerInfo(player : Player) : {Ping : number, Health : number, HealthBonus : number, Primary : string, Secondary : string}?
+function Utilities:GetPlayerInfo(player : Player) : {Ping : number, Health : number, HealthBonus : number, Primary : string, Secondary : string, Equipped : string, Equipment : {Model}}?
     local playerStats = player:FindFirstChild("Stats")
-    if not playerStats then
+    local playerCharacter = player.Character
+    if not playerStats or not playerCharacter then
         return nil
     end
-    return {Ping = playerStats.Ping.Value * 1000, Health = playerStats.Health.Value, HealthBonus = playerStats.HealthBonus.Value, Primary = playerStats.Primary.Value, Secondary = playerStats.Secondary.Value}
+    local equipped = playerCharacter.Equipped
+    local equipment = playerCharacter.Equipment
+    if not equipped or not equipment then
+        return nil
+    end
+    return {Ping = playerStats.Ping.Value * 1000, Health = playerStats.Health.Value, HealthBonus = playerStats.HealthBonus.Value, Primary = playerStats.Primary.Value, Secondary = playerStats.Secondary.Value, Equipped = equipped:FindFirstChildOfClass("Model") and equipped:FindFirstChildOfClass("Model").Name or "Hands", Equipment = equipment:GetChildren()}
 end
 
 function Utilities:DisableLogs() : boolean
