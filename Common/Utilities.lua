@@ -118,7 +118,7 @@ end
 
 function Utilities:ThrowErrorUI(title : string, text : string, options : {{Text : string, Callback : () -> ()}}?)
 	local identity = requirements:Call("GetIdentity")
-	requirements:Call("SetIdentity", 6)
+	requirements:Call("SetIdentity", 8)
 	local errorPrompt = require(modules.ErrorPrompt)
 	local errorGui = Utilities:Create("ScreenGui", "Instance", true, {Name = "RobloxErrorPrompt", Parent = CoreGui})
 	local prompt = errorPrompt.new("Default")
