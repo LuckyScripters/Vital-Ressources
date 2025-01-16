@@ -123,11 +123,11 @@ function Utilities:ThrowErrorUI(title : string, text : string, options : {{Text 
 	local errorPrompt = requirements:Call("require", modules.ErrorPrompt)
 	local errorGui = Utilities:Create("ScreenGui", "Instance", true, {Name = "RobloxErrorPrompt", Parent = CoreGui, RobloxLocked = true, ResetOnSpawn = false, IgnoreGuiInset = true, OnTopOfCoreBlur = true})
 	local prompt = errorPrompt.new("Default", {
-        HideErrorCode = true,
-        MenuIsOpenKey = "ErrorPrompt",
-        PlayAnimation = true,
-        MessageTextScaled = false
-    })
+		HideErrorCode = true,
+		MenuIsOpenKey = "ErrorPrompt",
+		PlayAnimation = true,
+		MessageTextScaled = false
+    	})
 	prompt:setErrorTitle(title)
 	local remadeOptions = (typeof(options) == "table" and table.maxn(options) > 0) and table.create(table.maxn(options), nil) or {{
 	    Text = "OK",
@@ -142,9 +142,9 @@ function Utilities:ThrowErrorUI(title : string, text : string, options : {{Text 
 	            Text = option.Text,
 	            Callback = function()
 	                if option.Callback then 
-				        option.Callback() 
-			        end
-                    RunService:SetRobloxGuiFocused(false)
+				option.Callback() 
+			end
+                    	RunService:SetRobloxGuiFocused(false)
 	                prompt:_close()
 	                Utilities:UnprotectInstance(errorGui)
 	                errorGui:Destroy()
@@ -156,7 +156,7 @@ function Utilities:ThrowErrorUI(title : string, text : string, options : {{Text 
 	prompt:updateButtons(remadeOptions, "Default")
 	prompt:setParent(errorGui)
 	prompt:_open(text)
-    RunService:SetRobloxGuiFocused(true)
+    	RunService:SetRobloxGuiFocused(true)
 	requirements:Call("SetIdentity", identity)
 end
 
