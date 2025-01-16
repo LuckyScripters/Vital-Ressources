@@ -10,6 +10,7 @@ type UtilitiesModule = {
 
 local CoreGui = cloneref(game:GetService("CoreGui"))
 local LogService = cloneref(game:GetService("LogService"))
+local RunService = cloneref(game:GetService("RunService"))
 local HttpService = cloneref(game:GetService("HttpService"))
 local ScriptContext = cloneref(game:GetService("ScriptContext"))
 
