@@ -121,14 +121,18 @@ function Utilities:ThrowErrorUI(title : string, text : string, options : {{Text 
 	local identity = requirements:Call("GetIdentity")
 	requirements:Call("SetIdentity", 6)
 	local errorPrompt = requirements:Call("require", modules.ErrorPrompt)
-	local errorGui = Utilities:Create("ScreenGui", "Instance", true, {Name = "RobloxErrorPrompt", Parent = CoreGui})
-	local prompt = errorPrompt.new("Default")
-	prompt._hideErrorCode = true
+	local errorGui = Utilities:Create("ScreenGui", "Instance", true, {Name = "RobloxErrorPrompt", Parent = CoreGui, RobloxLocked = true, ResetOnSpawn = false, IgnoreGuiInset = true, OnTopOfCoreBlur = true})
+	local prompt = errorPrompt.new("Default", {
+        HideErrorCode = true,
+        MenuIsOpenKey = "ErrorPrompt",
+        PlayAnimation = true,
+        MessageTextScaled = false
+    })
 	prompt:setErrorTitle(title)
 	local remadeOptions = (typeof(options) == "table" and table.maxn(options) > 0) and table.create(table.maxn(options), nil) or {{
 	    Text = "OK",
 	    Callback = function() 
-		prompt:_close() 
+		    prompt:_close() 
 	    end,
 	    Primary = true
 	}}
@@ -138,8 +142,9 @@ function Utilities:ThrowErrorUI(title : string, text : string, options : {{Text 
 	            Text = option.Text,
 	            Callback = function()
 	                if option.Callback then 
-				option.Callback() 
-			end
+				        option.Callback() 
+			        end
+                    RunService:SetRobloxGuiFocused(false)
 	                prompt:_close()
 	                Utilities:UnprotectInstance(errorGui)
 	                errorGui:Destroy()
@@ -151,6 +156,7 @@ function Utilities:ThrowErrorUI(title : string, text : string, options : {{Text 
 	prompt:updateButtons(remadeOptions, "Default")
 	prompt:setParent(errorGui)
 	prompt:_open(text)
+    RunService:SetRobloxGuiFocused(true)
 	requirements:Call("SetIdentity", identity)
 end
 
