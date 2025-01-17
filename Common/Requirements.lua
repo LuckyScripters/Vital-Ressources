@@ -59,7 +59,7 @@ local requiredFunctions = {
             return false
         end
         local networkOwnership = gethiddenproperty(basePart, "NetworkOwnershipRule")
-        if networkOwnership ~= Enum.NetworkOwnership.Automatic then
+        if networkOwnership ~= Enum.NetworkOwnership.Automatic and part.ReceiveAge ~= 0 then
             return false
         end
         local maxSimulationRadius = gethiddenproperty(localPlayer, "MaximumSimulationRadius")
