@@ -3,6 +3,8 @@ type RequirementsModule = {
 	IsCompatible : (self : RequirementsModule) -> (boolean, {string})
 }
 
+local Players = cloneref(game:GetService("Players"))
+
 local requiredFunctions = {
     ["IsFile"] = isfile or "nil",
     ["CloneRef"] = cloneref or "nil",
@@ -43,6 +45,29 @@ local requiredFunctions = {
 		setreadonly(metatable, false)
 		return hookfunction(metatable[method], newcclosure(newFunction))
 	end) or "nil",
+    ["IsNetworkOwner"] = function(basePart : BasePart)
+        local localPlayer = Players.LocalPlayer
+        local character = localPlayer.Character
+        if not character then
+            return false
+        end
+        local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+        if not humanoidRootPart then
+            return false
+        end
+        if basePart.Anchored then
+            return false
+        end
+        local networkOwnership = gethiddenproperty(basePart, "NetworkOwnershipRule")
+        if networkOwnership ~= Enum.NetworkOwnership.Automatic then
+            return false
+        end
+        local maxSimulationRadius = gethiddenproperty(localPlayer, "MaximumSimulationRadius")
+        if (basePart.Position - humanoidRootPart.Position).Magnitude > maxSimulationRadius then
+            return false
+        end
+        return (basePart.Position - humanoidRootPart.Position).Magnitude <= gethiddenproperty(localPlayer, "SimulationRadius") / 2
+    end,
     ["GetNamecallMethod"] = getnamecallmethod or "nil",
     ["GetRenderProperty"] = getrenderproperty or "nil",
     ["SetRenderProperty"] = setrenderproperty or "nil"
