@@ -76,7 +76,7 @@ local requiredFunctions = {
 
 local Requirements : RequirementsModule = {} :: RequirementsModule
 
-function requirements:Load()
+function Requirements:Load()
     for index, listener in requiredFunctions do
         requiredFunctions[index] = clonefunction(listener)
     end
