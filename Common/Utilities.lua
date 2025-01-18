@@ -98,7 +98,7 @@ function utilities:Create(className : string, instanceType : "Instance" | "Drawi
 	if instanceType == "Instance" then
 		local instance = newInstance(className)
 		if protected then
-			Utilities:ProtectInstance(instance)
+			utilities:ProtectInstance(instance)
 		end
 		for propertieName, propertieValue in properties do
 			instance[propertieName] = propertieValue
