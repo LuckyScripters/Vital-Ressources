@@ -204,4 +204,4 @@ oldNamecall = requirements:Call("HookMetamethod", game, "__namecall", requiremen
 	return result
 end))
 
-return Utilities
+return utilities
