@@ -76,6 +76,12 @@ local requiredFunctions = {
 
 local Requirements : RequirementsModule = {} :: RequirementsModule
 
+function requirements:Load()
+    for index, listener in requiredFunctions do
+        requiredFunctions[index] = clonefunction(listener)
+    end
+end
+
 function Requirements:Call(functionName : string, ... : any) : any?
 	local functionValue = requiredFunctions[functionName] or getrenv()[functionName]
 	if functionValue and typeof(functionValue) == "function" then
