@@ -2638,8 +2638,9 @@ function library:Init()
         end
         if input == dragInput and dragging and library.draggable then
             local delta = input.Position - dragStart
+            local xPos = (startPos.X.Offset + delta.X) < 0 and 0 or (startPos.X.Offset + delta.X) > dragObject.Parent.AbsoluteSize.X - dragObject.AbsoluteSize.X and dragObject.Parent.AbsoluteSize.X - dragObject.AbsoluteSize.X or startPos.X.Offset + delta.X
             local yPos = (startPos.Y.Offset + delta.Y) < 0 and 0 or (startPos.Y.Offset + delta.Y) > dragObject.Parent.AbsoluteSize.Y - dragObject.AbsoluteSize.Y and dragObject.Parent.AbsoluteSize.Y - dragObject.AbsoluteSize.Y or startPos.Y.Offset + delta.Y
-            dragObject:TweenPosition(UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, yPos), "Out", "Quint", 0.1, true)
+            dragObject:TweenPosition(UDim2.new(startPos.X.Scale, xPos, startPos.Y.Scale, yPos), "Out", "Quint", 0.1, true)
         end
     end)
 
