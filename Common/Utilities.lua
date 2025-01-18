@@ -19,7 +19,7 @@ local modules = robloxGui.Modules
 
 local requirements = loadstring(game:HttpGet("https://raw.githubusercontent.com/LuckyScripters/Vital-Ressources/refs/heads/main/Common/Requirements.lua", true))()
 
-local Utilities : UtilitiesModule = {} :: UtilitiesModule
+local utilities : UtilitiesModule = {} :: UtilitiesModule
 
 local oldIndex = nil
 local oldNamecall = nil
@@ -29,19 +29,19 @@ local newInstance = requirements:Call("NewLClosure", Instance.new)
 
 local protectedInstances = {}
 
-function Utilities:ProtectInstance(instance : Instance)
+function utilities:ProtectInstance(instance : Instance)
 	if not table.find(protectedInstances, instance, 1) then
 		table.insert(protectedInstances, instance)
 	end
 end
 
-function Utilities:UnprotectInstance(instance : Instance)
+function utilities:UnprotectInstance(instance : Instance)
 	if table.find(protectedInstances, instance, 1) then
 		table.remove(protectedInstances, table.find(protectedInstances, instance, 1))
 	end
 end
 
-function Utilities:GetPlayerInfo(player : Player) : {Ping : number, Health : number, HealthBonus : number, Primary : string, Secondary : string, Equipped : string, Equipment : {Model}}?
+function utilities:GetPlayerInfo(player : Player) : {Ping : number, Health : number, HealthBonus : number, Primary : string, Secondary : string, Equipped : string, Equipment : {Model}}?
     local playerStats = player:FindFirstChild("Stats")
     local playerCharacter = player.Character
     if not playerStats or not playerCharacter then
@@ -55,7 +55,7 @@ function Utilities:GetPlayerInfo(player : Player) : {Ping : number, Health : num
     return {Ping = playerStats.Ping.Value * 1000, Health = playerStats.Health.Value, HealthBonus = playerStats.HealthBonus.Value, Primary = playerStats.Primary.Value, Secondary = playerStats.Secondary.Value, Equipped = equipped:FindFirstChildOfClass("Model") and equipped:FindFirstChildOfClass("Model").Name or "Hands", Equipment = equipment:GetChildren()}
 end
 
-function Utilities:DisableLogs() : boolean
+function utilities:DisableLogs() : boolean
 	local success, result = pcall(function()
 		for index, signal in {ScriptContext.Error} do
 			for index, connection in requirements:Call("GetConnections", signal) do
@@ -70,7 +70,7 @@ function Utilities:DisableLogs() : boolean
 	return true
 end
 
-function Utilities:GetCustomFont(fontName : string, fontWeight : number, fontStyle : string) : string
+function utilities:GetCustomFont(fontName : string, fontWeight : number, fontStyle : string) : string
 	local fontFile = fontName .. ".ttf"
 	local fontAsset = fontName .. ".font"
 	local baseUrl = "https://github.com/LuckyScripters/Vital-Ressources/raw/main/CustomFonts/"
@@ -94,7 +94,7 @@ function Utilities:GetCustomFont(fontName : string, fontWeight : number, fontSty
 	end
 end
 
-function Utilities:Create(className : string, instanceType : "Instance" | "Drawing", protected : boolean, properties : {[string] : any}) : Instance | {[string] : any}?
+function utilities:Create(className : string, instanceType : "Instance" | "Drawing", protected : boolean, properties : {[string] : any}) : Instance | {[string] : any}?
 	if instanceType == "Instance" then
 		local instance = newInstance(className)
 		if protected then
@@ -117,7 +117,7 @@ function Utilities:Create(className : string, instanceType : "Instance" | "Drawi
 	return nil
 end
 
-function Utilities:ThrowErrorUI(title : string, text : string, options : {{Text : string, Callback : () -> ()}}?)
+function utilities:ThrowErrorUI(title : string, text : string, options : {{Text : string, Callback : () -> ()}}?)
 	local identity = requirements:Call("GetIdentity")
 	requirements:Call("SetIdentity", 6)
 	local errorPrompt = requirements:Call("require", modules.ErrorPrompt)
