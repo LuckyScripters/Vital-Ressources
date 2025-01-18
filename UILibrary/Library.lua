@@ -1660,7 +1660,7 @@ library.createColor = function(option, parent)
             if library.popup then library.popup:Close() end
             option.open = true
             local pos = option.main.AbsolutePosition
-            option.mainHolder.Position = UDim2.new(0, pos.X + 36 + (option.trans and -16 or 0), 0, pos.Y + 56)
+            option.mainHolder.Position = UDim2.new(0, pos.X + 36 + (option.trans and -16 or 0), 0, pos.Y + 56 + option.visualize.AbsoluteSize.Y * 2)
             option.mainHolder.Visible = true
             library.popup = option
             option.visualize.BorderColor3 = library.flags["Menu Accent Color"]
