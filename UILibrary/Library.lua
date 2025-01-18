@@ -975,7 +975,7 @@ library.createList = function(option, parent)
             option.open = true
             option.holder.Visible = true
             local pos = option.main.AbsolutePosition
-            option.holder.Position = UDim2.new(0, pos.X + 6, 0, pos.Y + ((option.text == "nil" and not option.sub) and 66 or 84))
+            option.holder.Position = UDim2.new(0, pos.X + 6, 0, pos.Y + option.listvalue.AbsoluteSize.Y * 2 + ((option.text == "nil" and not option.sub) and 66 or 84))
             library.popup = option
             option.listvalue.BorderColor3 = library.flags["Menu Accent Color"]
         end
