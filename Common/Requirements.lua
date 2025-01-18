@@ -37,6 +37,7 @@ local requiredFunctions = {
 	end) or "nil",
     ["GetMetatable"] = getrawmetatable or debug.getmetatable or "nil",
     ["HookFunction"] = hookfunction or detour_function or replaceclosure or "nil",
+    ["SetClipboard"] = setclipboard or "nil",
     ["CloneFunction"] = clonefunction or "nil",
     ["GetConnections"] = get_signal_cons or getconnections or "nil",
     ["GetCustomAsset"] = getcustomasset or getsynasset or "nil",
