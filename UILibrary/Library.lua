@@ -2638,7 +2638,7 @@ function library:Init()
         end
         if input == dragInput and dragging and library.draggable then
             local delta = input.Position - dragStart
-            local yPos = (startPos.Y.Offset + delta.Y) < 0 + 36 and 0 + 36 or startPos.Y.Offset + delta.Y
+            local yPos = (startPos.Y.Offset + delta.Y) < 0 and 0 or startPos.Y.Offset + delta.Y
             dragObject:TweenPosition(UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, yPos), "Out", "Quint", 0.1, true)
         end
     end)
