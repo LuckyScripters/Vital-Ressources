@@ -107,7 +107,7 @@ function utilities:Create(className : string, instanceType : "Instance" | "Drawi
 	elseif instanceType == "Drawing" then
 		local drawing = newDrawing(className)
 		if protected then
-			Utilities:ProtectInstance(drawing)
+			utilities:ProtectInstance(drawing)
 		end
 		for propertieName, propertieValue in properties do
 			drawing[propertieName] = propertieValue
@@ -146,7 +146,7 @@ function utilities:ThrowErrorUI(title : string, text : string, options : {{Text 
 			end
                     	RunService:SetRobloxGuiFocused(false)
 	                prompt:_close()
-	                Utilities:UnprotectInstance(errorGui)
+	                utilities:UnprotectInstance(errorGui)
 	                errorGui:Destroy()
 	            end,
 	            Primary = index == 1
