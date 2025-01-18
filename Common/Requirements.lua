@@ -37,7 +37,7 @@ local requiredFunctions = {
 	end) or "nil",
     ["GetMetatable"] = getrawmetatable or debug.getmetatable or "nil",
     ["HookFunction"] = hookfunction or detour_function or replaceclosure or "nil",
-    ["SetClipboard"] = setclipboard or "nil",
+    ["SetClipboard"] = (syn and syn.write_clipboard) or write_clipboard or (clipboard and clipboard.set) or copystring or setclipboard or toClipboard or toclipboard or set_clipboard or (Clipboard and Clipboard.set) or "nil",
     ["CloneFunction"] = clonefunction or "nil",
     ["GetConnections"] = get_signal_cons or getconnections or "nil",
     ["GetCustomAsset"] = getcustomasset or getsynasset or "nil",
