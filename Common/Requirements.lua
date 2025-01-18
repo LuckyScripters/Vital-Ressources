@@ -74,15 +74,15 @@ local requiredFunctions = {
     ["SetRenderProperty"] = setrenderproperty or "nil"
 }
 
-local Requirements : RequirementsModule = {} :: RequirementsModule
+local requirements : RequirementsModule = {} :: RequirementsModule
 
-function Requirements:Load()
+function requirements:Load()
     for index, listener in requiredFunctions do
         requiredFunctions[index] = clonefunction(listener)
     end
 end
 
-function Requirements:Call(functionName : string, ... : any) : any?
+function requirements:Call(functionName : string, ... : any) : any?
 	local functionValue = requiredFunctions[functionName] or getrenv()[functionName]
 	if functionValue and typeof(functionValue) == "function" then
 		local success, result = pcall(functionValue, ...)
@@ -96,7 +96,7 @@ function Requirements:Call(functionName : string, ... : any) : any?
 	return nil
 end
 
-function Requirements:IsCompatible() : (boolean, {string})
+function requirements:IsCompatible() : (boolean, {string})
 	local isCompatible = true
 	local unsupportedFunctions = {}
 	for functionName, functionValue in requiredFunctions do
@@ -108,4 +108,4 @@ function Requirements:IsCompatible() : (boolean, {string})
 	return isCompatible, unsupportedFunctions
 end
 
-return Requirements
+return requirements
