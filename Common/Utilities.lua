@@ -52,7 +52,7 @@ function utilities:GetPlayerInfo(player : Player) : {Ping : number, Health : num
     if not equipped or not equipment then
         return nil
     end
-    return {Ping = playerStats.Ping.Value * 1000, Health = playerStats.Health.Value, HealthBonus = playerStats.HealthBonus.Value, Primary = playerStats.Primary.Value, Secondary = playerStats.Secondary.Value, Equipped = equipped:FindFirstChildOfClass("Model") and equipped:FindFirstChildOfClass("Model").Name or "Hands", Equipment = equipment:GetChildren()}
+    return {Ping = playerStats.Ping.Value * 1000, Health = playerStats.Health.Value, HealthBonus = playerStats.HealthBonus.Value, Primary = playerStats.Primary.Value ~= "" and playerStats.Primary.Value or "None", Secondary = playerStats.Secondary.Value ~= "" and playerStats.Secondary.Value or "None", Equipped = equipped:FindFirstChildOfClass("Model") and equipped:FindFirstChildOfClass("Model").Name or "Hands", Equipment = equipment:GetChildren()}
 end
 
 function utilities:DisableLogs() : boolean
