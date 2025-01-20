@@ -2452,7 +2452,7 @@ function library:Init()
         self.base.Parent = script.Parent.Parent
     elseif syn then
         pcall(function() self.base.RobloxLocked = true end)
-        self.base.Parent = game:GetService"CoreGui"
+        self.base.Parent = cloneref(game:GetService"CoreGui")
     end
 
     self.main = self:Create("ImageButton", {
