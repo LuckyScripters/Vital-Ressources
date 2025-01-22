@@ -14,6 +14,7 @@ local requiredFunctions = {
     ["WriteFile"] = writefile or "nil",
     ["GetUpValue"] = getupvalue or debug.getupvalue or "nil",
     ["MakeFolder"] = makefolder or "nil",
+    ["GetUpValues"] = getupvalues or debug.getupvalues or "nil",
     ["CheckCaller"] = checkcaller or "nil",
     ["GetIdentity"] = (syn and syn.get_thread_identity) or get_thread_identity or getidentity or getthreadidentity or getthreadcontext or get_thread_context or "nil",
     ["IsRenderObj"] = isrenderobj or "nil",
