@@ -180,13 +180,15 @@ oldNamecall = requirements:Call("HookMetamethod", game, "__namecall", requiremen
 	if namecallmethod == "WaitForChild" then
 		if table.find(protectedInstances, result, 1) then
 			local childName, timeout = arguments[1], arguments[2]
-			result = nil
 			task.delay(timeout or 5, warn, "Infinite yield possible on '" .. self.GetFullName(self) .. ":WaitForChild(\"" .. tostring(childName) .. "\")'")
+			return nil
 		end
+		return oldNamecall(self, ...)
 	elseif namecallmethod == "FindFirstChild" or namecallmethod == "FindFirstAncestor" or namecallmethod == "FindFirstDescendant" then
 		if table.find(protectedInstances, result, 1) then
-			result = nil
+			return nil
 		end
+		return oldNamecall(self, ...)
 	elseif namecallmethod == "GetChildren" or namecallmethod == "GetDescendants" then
 		if typeof(result) == "table" then
 			for index, value in result do
@@ -200,8 +202,9 @@ oldNamecall = requirements:Call("HookMetamethod", game, "__namecall", requiremen
 				end
 			end
 		end
+		return oldNamecall(self, ...)
 	end
-	return result
+	return oldNamecall(self, ...)
 end))
 
 return utilities
