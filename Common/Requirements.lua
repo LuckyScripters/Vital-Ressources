@@ -1,4 +1,5 @@
 type RequirementsModule = {
+	Load : (self : RequirementsModule) -> (),
 	Call : (self : RequirementsModule, functionName : string, ...any) -> any?,
 	IsCompatible : (self : RequirementsModule) -> (boolean, {string})
 }
