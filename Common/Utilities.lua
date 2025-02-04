@@ -121,7 +121,7 @@ function utilities:ThrowErrorUI(title : string, text : string, options : {{Text 
 	local identity = requirements:Call("GetIdentity")
 	requirements:Call("SetIdentity", 6)
 	local errorPrompt = requirements:Call("require", modules.ErrorPrompt)
-	local errorGui = Utilities:Create("ScreenGui", "Instance", true, {Name = "RobloxErrorPrompt", Parent = CoreGui, RobloxLocked = true, ResetOnSpawn = false, IgnoreGuiInset = true, OnTopOfCoreBlur = true})
+	local errorGui = utilities:Create("ScreenGui", "Instance", true, {Name = "RobloxErrorPrompt", Parent = CoreGui, RobloxLocked = true, ResetOnSpawn = false, IgnoreGuiInset = true, OnTopOfCoreBlur = true})
 	local prompt = errorPrompt.new("Default", {
 		HideErrorCode = true,
 		MenuIsOpenKey = "ErrorPrompt",
