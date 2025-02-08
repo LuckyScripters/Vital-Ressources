@@ -1,13 +1,3 @@
-type UtilitiesModule = {
-	ProtectInstance : (self : UtilitiesModule, instance : Instance) -> (),
-	UnprotectInstance : (self : UtilitiesModule, instance : Instance) -> (),
-    	GetPlayerInfo : (self : UtilitiesModule, player : Player) -> {Ping : number, Health : number, HealthBonus : number, Primary : string, Secondary : string}?,
-	DisableLogs : (self : UtilitiesModule) -> boolean,
-	GetCustomFont : (fontName : string, fontWeight : number, fontStyle : string) -> string,
-	Create : (self : UtilitiesModule, className : string, instanceType : "Instance" | "Drawing", protected : boolean, properties : {[string] : any}) -> Instance | {[string] : any}?,
-	ThrowErrorUI : (self : UtilitiesModule, title : string, text : string, options : {{Text : string, Callback : () -> ()}}?) -> ()
-}
-
 local CoreGui = cloneref(game:GetService("CoreGui"))
 local LogService = cloneref(game:GetService("LogService"))
 local RunService = cloneref(game:GetService("RunService"))
@@ -19,7 +9,7 @@ local modules = robloxGui.Modules
 
 local requirements = loadstring(game:HttpGet("https://raw.githubusercontent.com/LuckyScripters/Vital-Ressources/refs/heads/main/Common/Requirements.lua", true))()
 
-local utilities : UtilitiesModule = {} :: UtilitiesModule
+local utilities = {}
 
 local oldIndex = nil
 local oldNamecall = nil
