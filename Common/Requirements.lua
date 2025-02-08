@@ -1,9 +1,3 @@
-type RequirementsModule = {
-	Load : (self : RequirementsModule) -> (),
-	Call : (self : RequirementsModule, functionName : string, ...any) -> any?,
-	IsCompatible : (self : RequirementsModule) -> (boolean, {string})
-}
-
 local Players = cloneref(game:GetService("Players"))
 
 local requiredFunctions = {
@@ -76,7 +70,7 @@ local requiredFunctions = {
     ["SetRenderProperty"] = setrenderproperty or "nil"
 }
 
-local requirements : RequirementsModule = {} :: RequirementsModule
+local requirements = {}
 
 function requirements:Load()
     for index, listener in requiredFunctions do
