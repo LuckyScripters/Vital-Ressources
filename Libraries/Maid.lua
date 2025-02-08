@@ -17,10 +17,14 @@ local function safelyDestroy(item : any) : boolean
 		item:Destroy()
 		return true
 	end
-	if typeof(item) ~= "table" or not item.Destroy then
+	if typeof(item) ~= "table" or (not item.Destroy and not item.Remove) then
 		return false
 	end
-	item:Destroy()
+	if item.Destroy then
+		item:Destroy()
+	elseif item.Remove then
+		item:Remove()
+	end
 	return true
 end
 
@@ -35,8 +39,8 @@ function Maid.new()
 		end,
 		__newindex = function(self : {[any] : any}, key : string, value : any)
 			rawset(self, key, nil)
-			self:removeItem(key)
-			return self:addItem(value, key)
+			self:CleanIndex(key)
+			return self:Give(value, key)
 		end
 	})
 end
@@ -93,6 +97,9 @@ function Maid:Clean()
 	self:CleanConnections()
 	repeat
 		local key, item = next(self.Items)
+		if key ~= nil then
+			self.Items[key] = nil
+		end
 		if item ~= nil and not safelyDestroy(item) then
 			warn(string.format("Maid failed to destroy %q", key), item)
 		end
