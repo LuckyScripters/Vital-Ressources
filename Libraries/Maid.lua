@@ -83,15 +83,14 @@ end
 
 function Maid:CleanConnections()
 	for index, item in self.Items do
-		if typeof(item) == "RBXScriptConnection" or 
-			(typeof(item) == "table" and item.ClassName == "SignalConnection") then
+		if typeof(item) == "RBXScriptConnection" or (typeof(item) == "table" and item.ClassName == "SignalConnection") then
 			item:Disconnect()
 		end
 	end
 end
 
 function Maid:Clean()
-	self:disconnectConnections()
+	self:CleanConnections()
 	repeat
 		local key, item = next(self.Items)
 		if item ~= nil and not safelyDestroy(item) then
