@@ -6,15 +6,15 @@ Stepper.__index = Stepper
 local function executeStep(stepper : {[any] : any})
 	if not stepper.isRunning then
 		local currentTime = os.clock()
-		local timeElapsed = currentTime - stepper.lastStepTime
-		local shouldExecute = stepper.stepRate <= timeElapsed
+		local deltaTime = currentTime - stepper.lastStepTime
+		local shouldExecute = stepper.stepRate <= deltaTime
 		if stepper.forceNextStep then
 			stepper.forceNextStep = false
 			shouldExecute = true
 		end
 		if shouldExecute then
 			stepper.isRunning = true
-			local success, errorMessage = xpcall(stepper.callback, debug.traceback, currentTime, timeElapsed)
+			local success, errorMessage = xpcall(stepper.callback, debug.traceback, currentTime, deltaTime)
 			if success then
 				stepper.lastStepTime = currentTime
 			else
