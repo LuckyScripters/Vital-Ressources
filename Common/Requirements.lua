@@ -8,6 +8,7 @@ local requiredFunctions = {
     ["DelFolder"] = delfolder or "nil",
     ["WriteFile"] = writefile or "nil",
     ["GetUpValue"] = getupvalue or debug.getupvalue or "nil",
+    ["SetUpValue"] = setupvalue or debug.setupvalue or "nil",
     ["MakeFolder"] = makefolder or "nil",
     ["GetUpValues"] = getupvalues or debug.getupvalues or "nil",
     ["CheckCaller"] = checkcaller or "nil",
