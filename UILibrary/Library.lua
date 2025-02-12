@@ -788,10 +788,10 @@ library.createSlider = function(option, parent)
         value = library.round(value, option.float)
         value = math.clamp(value, self.min, self.max)
         if self.min >= 0 then
-            --option.fill:TweenSize(UDim2.new((value - self.min) / (self.max - self.min), 0, 1, 0), "Out", "Quad", 0.05, true)
+            tweenService:Create(option.fill, TweenInfo.new(0.005, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = UDim2.new((value - self.min) / (self.max - self.min), 0, 1, 0)}):Play()
         else
-            --option.fill:TweenPosition(UDim2.new((0 - self.min) / (self.max - self.min), 0, 0, 0), "Out", "Quad", 0.05, true)
-            --option.fill:TweenSize(UDim2.new(value / (self.max - self.min), 0, 1, 0), "Out", "Quad", 0.1, true)
+            tweenService:Create(option.fill, TweenInfo.new(0.05, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Position = UDim2.new((0 - self.min) / (self.max - self.min), 0, 0, 0)}):Play()
+            tweenService:Create(option.fill, TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = UDim2.new(value / (self.max - self.min), 0, 1, 0)}):Play()
         end
         library.flags[self.flag] = value
         self.value = value
@@ -2589,8 +2589,8 @@ function library:Init()
         self.main.Size = UDim2.new(0, 16 + ((#tab.columns < 2 and 2 or #tab.columns) * 239), 0, 600)
         self.currentTab = tab
         tab.button.TextColor3 = library.flags["Menu Accent Color"]
-        self.tabHighlight:TweenPosition(UDim2.new(0, tab.button.Position.X.Offset, 0, 50), "Out", "Quad", 0.2, true)
-        self.tabHighlight:TweenSize(UDim2.new(0, tab.button.AbsoluteSize.X, 0, -1), "Out", "Quad", 0.1, true)
+        tweenService:Create(self.tabHighlight, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Position = UDim2.new(0, tab.button.Position.X.Offset, 0, 50)}):Play()
+        tweenService:Create(self.tabHighlight, TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = UDim2.new(0, tab.button.AbsoluteSize.X, 0, -1)}):Play()
         for _, column in next, tab.columns do
             column.main.Visible = true
         end
@@ -2640,7 +2640,7 @@ function library:Init()
             local delta = input.Position - dragStart
             local xPos = (startPos.X.Offset + delta.X) < 0 and 0 or (startPos.X.Offset + delta.X) > dragObject.Parent.AbsoluteSize.X - dragObject.AbsoluteSize.X and dragObject.Parent.AbsoluteSize.X - dragObject.AbsoluteSize.X or startPos.X.Offset + delta.X
             local yPos = (startPos.Y.Offset + delta.Y) < 0 and 0 or (startPos.Y.Offset + delta.Y) > dragObject.Parent.AbsoluteSize.Y - dragObject.AbsoluteSize.Y and dragObject.Parent.AbsoluteSize.Y - dragObject.AbsoluteSize.Y or startPos.Y.Offset + delta.Y
-            dragObject:TweenPosition(UDim2.new(startPos.X.Scale, xPos, startPos.Y.Scale, yPos), "Out", "Quint", 0.1, true)
+            tweenService:Create(dragObject, TweenInfo.new(0.1, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {Position = UDim2.new(startPos.X.Scale, xPos, startPos.Y.Scale, yPos)}):Play()
         end
     end)
 
