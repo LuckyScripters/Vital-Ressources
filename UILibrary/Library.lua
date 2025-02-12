@@ -788,7 +788,7 @@ library.createSlider = function(option, parent)
         value = library.round(value, option.float)
         value = math.clamp(value, self.min, self.max)
         if self.min >= 0 then
-            option.fill.Position = UDim2.new((value - self.min) / (self.max - self.min), 0, 1, 0)
+            option.fill.Size = UDim2.new((value - self.min) / (self.max - self.min), 0, 1, 0)
         else
             option.fill.Position = UDim2.new((0 - self.min) / (self.max - self.min), 0, 0, 0)
             option.fill.Size = UDim2.new(value / (self.max - self.min), 0, 1, 0)
