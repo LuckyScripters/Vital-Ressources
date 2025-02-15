@@ -5,6 +5,7 @@ local requiredFunctions = {
     ["CloneRef"] = cloneref or "nil",
     ["IsFolder"] = isfolder or "nil",
     ["ReadFile"] = readfile or "nil",
+    ["ListFiles"] = listfiles or "nil",
     ["DelFolder"] = delfolder or "nil",
     ["WriteFile"] = writefile or "nil",
     ["GetUpValue"] = getupvalue or debug.getupvalue or "nil",
