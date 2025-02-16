@@ -2435,7 +2435,7 @@ function VitalLibrary:Init()
 	end)
 	if not getgenv().Silent then
 		task.delay(1, function() 
-			self:Close() 
+			self:Toggle() 
 		end)
 	end
 end
