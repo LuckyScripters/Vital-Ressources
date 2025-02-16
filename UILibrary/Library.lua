@@ -2229,7 +2229,7 @@ function VitalLibrary:AddWarning(warning : Dictionary)
 	return warning
 end
 
-function VitalLibrary:Close()
+function VitalLibrary:Toggle()
 	self.IsOpen = not self.IsOpen
 	if self.Main then
 		if self.Popup then
