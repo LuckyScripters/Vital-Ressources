@@ -521,12 +521,12 @@ VitalLibrary.CreateBind = function(option : Dictionary, parent : Instance)
 		end
 	end)
 	VitalLibrary:AddConnection(UserInputService.InputBegan, function(input : InputObject, gameProcessedEvent : boolean)
-		if gameProcessedEvent or UserInputService:GetFocusedTextBox() then
+		if UserInputService:GetFocusedTextBox() then
 			return
 		end
 		if binding then
-			local input = (table.find(whitelistedMouseInputs, input.UserInputType, 1) and not option.NoMouse) and input.UserInputType
-			option:SetKeyCode(input or (not table.find(blacklistedKeyCodes, input.KeyCode, 1)) and input.KeyCode)
+			local inputType = (table.find(whitelistedMouseInputs, input.UserInputType, 1) and not option.NoMouse) and input.UserInputType
+			option:SetKeyCode(inputType or (not table.find(blacklistedKeyCodes, input.KeyCode, 1)) and input.KeyCode)
 		else
 			if (input.KeyCode.Name == option.KeyCode or input.UserInputType.Name == option.KeyCode) and not binding then
 				if option.Mode == "Toggle" then
@@ -539,7 +539,7 @@ VitalLibrary.CreateBind = function(option : Dictionary, parent : Instance)
 						option.Callback(true, 0) 
 					end
 					loop = VitalLibrary:AddConnection(RunService.RenderStepped, function(deltaTime : number)
-						if not gameProcessedEvent and not UserInputService:GetFocusedTextBox() then
+						if not UserInputService:GetFocusedTextBox() then
 							option.Callback(nil, deltaTime)
 						end
 					end)
@@ -548,7 +548,7 @@ VitalLibrary.CreateBind = function(option : Dictionary, parent : Instance)
 		end
 	end)
 	VitalLibrary:AddConnection(UserInputService.InputEnded, function(input : InputObject, gameProcessedEvent : boolean)
-		if gameProcessedEvent or UserInputService:GetFocusedTextBox() then
+		if UserInputService:GetFocusedTextBox() then
 			return
 		end
 		if option.KeyCode ~= "None" then
@@ -1366,7 +1366,7 @@ VitalLibrary.CreateColorPickerWindow = function(option : Dictionary) : Dictionar
 		ClipsDescendants = true,
 		Parent = option.MainHolder
 	}, false)
-	local satvalSlider = VitalLibrary:Create("Frame", {
+	local saturationValueSlider = VitalLibrary:Create("Frame", {
 		ZIndex = 4,
 		AnchorPoint = Vector2.new(0.5, 0.5),
 		Position = UDim2.new(saturation, 0, 1 - value, 0),
@@ -1386,7 +1386,7 @@ VitalLibrary.CreateColorPickerWindow = function(option : Dictionary) : Dictionar
 		end
 	end)
 	VitalLibrary:AddConnection(UserInputService.InputChanged, function(input : InputObject, gameProcessedEvent : boolean)
-		if not gameProcessedEvent and input.UserInputType == Enum.UserInputType.MouseMovement then
+		if input.UserInputType == Enum.UserInputType.MouseMovement then
 			if editingSaturationValue then
 				local x = (saturationValue.AbsolutePosition.X + saturationValue.AbsoluteSize.X) - saturationValue.AbsolutePosition.X
 				local y = (saturationValue.AbsolutePosition.Y + saturationValue.AbsoluteSize.Y) - saturationValue.AbsolutePosition.Y
@@ -1436,7 +1436,7 @@ VitalLibrary.CreateColorPickerWindow = function(option : Dictionary) : Dictionar
 			transparencyMain.ImageColor3 = Color3.fromHSV(hue, 1, 1)
 		end
 		hueSlider.Position = UDim2.new(1 - hue, 0, 0, 0)
-		satvalSlider.Position = UDim2.new(saturation, 0, 1 - value, 0)
+		saturationValueSlider.Position = UDim2.new(saturation, 0, 1 - value, 0)
 		local r, g, b = VitalLibrary.SnapTo(Color3.fromHSV(hue, saturation, value), nil)
 		option.HexInput.Text = string.format("#%02x%02x%02x", r, g, b)
 		option.RGBInput.Text = table.concat({r, g, b}, ",", 1, 3)
@@ -1731,7 +1731,7 @@ function VitalLibrary:AddTab(title : string, position : number) : Dictionary
 				option.Text = tostring(option.Text)
 				option.KeyCode = (option.KeyCode and option.KeyCode.Name) or option.KeyCode or "None"
 				option.NoMouse = typeof(option.NoMouse) == "boolean" and option.NoMouse or false
-				option.Mode = typeof(option.Mode) == "string" and (option.Mode == "toggle" or option.Mode == "hold" and option.Mode) or "toggle"
+				option.Mode = (typeof(option.Mode) == "string" and (option.Mode == "Toggle" or option.Mode == "Hold")) and option.Mode or "Toggle"
 				option.Callback = typeof(option.Callback) == "function" and option.Callback or function() end
 				option.Type = "Bind"
 				option.Position = table.maxn(self.Options)
@@ -2412,7 +2412,7 @@ function VitalLibrary:Init()
 		end
 	end
 	self:AddConnection(UserInputService.InputEnded, function(input : InputObject, gameProcessedEvent : boolean)
-		if not gameProcessedEvent and input.UserInputType == Enum.UserInputType.MouseButton1 and self.Slider then
+		if input.UserInputType == Enum.UserInputType.MouseButton1 and self.Slider then
 			self.Slider.Slider.BorderColor3 = Color3.new(0, 0, 0)
 			self.Slider = nil
 		end
