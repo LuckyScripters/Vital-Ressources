@@ -160,7 +160,7 @@ oldIndex = requirements:Call("HookMetamethod", game, "__index", requirements:Cal
 	return oldIndex(self, index)
 end))
 
-oldNamecall = requirements:Call("HookMetamethod", game, "__namecall", requirements:Call("NewLClosure", function(self : Instance, ... : any)
+--[[oldNamecall = requirements:Call("HookMetamethod", game, "__namecall", requirements:Call("NewLClosure", function(self : Instance, ... : any)
 	if requirements:Call("CheckCaller") then
 		return oldNamecall(self, ...)
 	end
@@ -195,6 +195,6 @@ oldNamecall = requirements:Call("HookMetamethod", game, "__namecall", requiremen
 		return oldNamecall(self, ...)
 	end
 	return oldNamecall(self, ...)
-end))
+end))]]
 
 return utilities
