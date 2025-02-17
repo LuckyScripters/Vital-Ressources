@@ -11,9 +11,6 @@ local requirements = loadstring(game:HttpGet("https://raw.githubusercontent.com/
 
 local utilities = {}
 
-local oldIndex = nil
-local oldNamecall = nil
-
 local newDrawing = requirements:Call("NewLClosure", Drawing.new)
 local newInstance = requirements:Call("NewLClosure", Instance.new)
 
@@ -150,51 +147,14 @@ function utilities:ThrowErrorUI(title : string, text : string, options : {{Text 
 	requirements:Call("SetIdentity", identity)
 end
 
-oldIndex = requirements:Call("HookMetamethod", game, "__index", requirements:Call("NewLClosure", function(self : Instance, index : string)
+local originalIndex; originalIndex = requirements:Call("HookMetamethod", game, "__index", requirements:Call("NewLClosure", function(self : Instance, index : string)
 	if requirements:Call("CheckCaller") then
-		return oldIndex(self, index)
+		return originalIndex(self, index)
 	end
 	if table.find(protectedInstances, self, 1) then
 		return nil
 	end
-	return oldIndex(self, index)
+	return originalIndex(self, index)
 end))
-
---[[oldNamecall = requirements:Call("HookMetamethod", game, "__namecall", requirements:Call("NewLClosure", function(self : Instance, ... : any)
-	if requirements:Call("CheckCaller") then
-		return oldNamecall(self, ...)
-	end
-	local result = oldNamecall(self, ...)
-	local arguments = table.pack(...)
-	local namecallmethod = requirements:Call("GetNamecallMethod")
-	if namecallmethod == "WaitForChild" then
-		if table.find(protectedInstances, result, 1) then
-			local childName, timeout = arguments[1], arguments[2]
-			task.delay(timeout or 5, warn, "Infinite yield possible on '" .. self.GetFullName(self) .. ":WaitForChild(\"" .. tostring(childName) .. "\")'")
-			return nil
-		end
-		return oldNamecall(self, ...)
-	elseif namecallmethod == "FindFirstChild" or namecallmethod == "FindFirstAncestor" or namecallmethod == "FindFirstDescendant" then
-		if table.find(protectedInstances, result, 1) then
-			return nil
-		end
-		return oldNamecall(self, ...)
-	elseif namecallmethod == "GetChildren" or namecallmethod == "GetDescendants" then
-		if typeof(result) == "table" then
-			for index, value in result do
-				if table.find(protectedInstances, value, 1) then
-					table.remove(result, index)
-				end
-				for index, protectedInstance in protectedInstances do
-					if namecallmethod == "GetDescendants" and value.IsDescendantOf(value, protectedInstance) then
-						table.remove(result, index)
-					end
-				end
-			end
-		end
-		return oldNamecall(self, ...)
-	end
-	return oldNamecall(self, ...)
-end))]]
 
 return utilities
