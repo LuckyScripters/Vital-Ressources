@@ -2,6 +2,7 @@ local Players = cloneref(game:GetService("Players"))
 
 local requiredFunctions = {
     ["IsFile"] = isfile or "nil",
+    ["DelFile"] = delfile or "nil",
     ["CloneRef"] = cloneref or "nil",
     ["IsFolder"] = isfolder or "nil",
     ["ReadFile"] = readfile or "nil",
