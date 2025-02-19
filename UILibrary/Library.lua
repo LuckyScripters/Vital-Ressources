@@ -1012,14 +1012,15 @@ VitalLibrary.CreateList = function(option : Dictionary, parent : Instance) : Dic
 		end
 	end
 	function option:SetValue(value : string | Dictionary, nocallback : boolean)
-		print(value, table.maxn(value))
+		if typeof(value) == "table" then
+			print(value, table.maxn(value))
+		end
 		local multipleValues = {}
 		if self.MultipleSelection and typeof(value) ~= "table" then
 			for index, value in self.Values do
 				multipleValues[value] = false
 			end
 		end
-		print(option.Values, table.maxn(option.Values))
 		value = self.MultipleSelection and multipleValues or value
 		self.Value = typeof(value) == "table" and value or tostring(table.find(self.Values, value, 1) and value or self.Values[1])
 		VitalLibrary.Flags[self.Flag] = self.Value
