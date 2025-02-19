@@ -981,8 +981,8 @@ VitalLibrary.CreateList = function(option : Dictionary, parent : Instance) : Dic
 		label.InputBegan:Connect(function(input : InputObject)
 			if input.UserInputType == Enum.UserInputType.MouseButton1 then
 				if self.MultipleSelection then
-					print(self.Value[value], self.Value, table.maxn(self.Value))
 					self.Value[value] = not self.Value[value]
+					print(self.Value[value])
 					self:SetValue(self.Value)
 				else
 					self:SetValue(value)
