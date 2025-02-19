@@ -982,7 +982,6 @@ VitalLibrary.CreateList = function(option : Dictionary, parent : Instance) : Dic
 			if input.UserInputType == Enum.UserInputType.MouseButton1 then
 				if self.MultipleSelection then
 					self.Value[value] = not self.Value[value]
-					print(self.Value[value])
 					self:SetValue(self.Value)
 				else
 					self:SetValue(value)
@@ -1019,7 +1018,7 @@ VitalLibrary.CreateList = function(option : Dictionary, parent : Instance) : Dic
 				multipleValues[value] = false
 			end
 		end
-		value = self.MultipleSelection and multipleValues or value
+		value = (self.MultipleSelection and typeof(value) ~= "table") and multipleValues or value
 		self.Value = typeof(value) == "table" and value or tostring(table.find(self.Values, value, 1) and value or self.Values[1])
 		VitalLibrary.Flags[self.Flag] = self.Value
 		option.ListValue.Text = " " .. (self.MultipleSelection and getMultiText() or self.Value)
