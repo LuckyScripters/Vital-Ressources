@@ -1012,6 +1012,7 @@ VitalLibrary.CreateList = function(option : Dictionary, parent : Instance) : Dic
 		end
 	end
 	function option:SetValue(value : string | Dictionary, nocallback : boolean)
+		print(value, table.maxn(value))
 		local multipleValues = {}
 		if self.MultipleSelection and typeof(value) ~= "table" then
 			for index, value in self.Values do
