@@ -1018,7 +1018,7 @@ VitalLibrary.CreateList = function(option : Dictionary, parent : Instance) : Dic
 				multipleValues[value] = false
 			end
 		end
-		print(option.Values)
+		print(option.Values, table.maxn(option.Values))
 		value = self.MultipleSelection and multipleValues or value
 		self.Value = typeof(value) == "table" and value or tostring(table.find(self.Values, value, 1) and value or self.Values[1])
 		VitalLibrary.Flags[self.Flag] = self.Value
