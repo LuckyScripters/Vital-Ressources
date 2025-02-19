@@ -1018,11 +1018,11 @@ VitalLibrary.CreateList = function(option : Dictionary, parent : Instance) : Dic
 				multipleValues[value] = false
 			end
 		end
+		print(option.Values)
 		value = self.MultipleSelection and multipleValues or value
 		self.Value = typeof(value) == "table" and value or tostring(table.find(self.Values, value, 1) and value or self.Values[1])
 		VitalLibrary.Flags[self.Flag] = self.Value
 		option.ListValue.Text = " " .. (self.MultipleSelection and getMultiText() or self.Value)
-		print(getMultiText())
 		if self.MultipleSelection then
 			for name, label in self.Labels do
 				label.TextTransparency = self.Value[name] and 1 or 0
