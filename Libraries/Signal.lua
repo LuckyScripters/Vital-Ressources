@@ -43,15 +43,6 @@ function SignalConnection:Disconnect()
 	end
 end
 
-setmetatable(SignalConnection, {
-	__index = function(_, key : string)
-		error("Attempt to get Connection::" .. tostring(key) .. " (not a valid member)", 2)
-	end,
-	__newindex = function(_, key : string, _)
-		error("Attempt to set Connection::" .. tostring(key) .. " (not a valid member)", 2)
-	end
-})
-
 local Signal = {}
 Signal.__index = Signal
 
@@ -132,14 +123,5 @@ function Signal:Once(callback : (...any) -> ())
 	end)
 	return connection
 end
-
-setmetatable(Signal, {
-	__index = function(_, key : string)
-		error("Attempt to get Signal::" .. tostring(key) .. " (not a valid member)", 2)
-	end,
-	__newindex = function(_, key : string, _)
-		error("Attempt to set Signal::" .. tostring(key) .. " (not a valid member)", 2)
-	end
-})
 
 return Signal
