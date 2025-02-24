@@ -11,10 +11,11 @@ if getgenv().VitalLibrary then
 	getgenv().VitalLibrary:Unload()
 end
 
-local VitalLibrary = {Tabs = {}, Flags = {}, Theme = {}, Title = "Vital.wtf", IsOpen = false, Options = {}, TabSize = 0, FileText = ".txt", Draggable = true, Instances = {}, FolderName = "Vital.wtf_Configs", Connections = {}, Notifications = {}}
-
+local signal = loadstring(game:HttpGet("https://raw.githubusercontent.com/LuckyScripters/Vital-Ressources/refs/heads/main/Libraries/Signal.lua", true))()
 local utilities = loadstring(game:HttpGet("https://raw.githubusercontent.com/LuckyScripters/Vital-Ressources/refs/heads/main/Common/Utilities.lua", true))()
 local requirements = loadstring(game:HttpGet("https://raw.githubusercontent.com/LuckyScripters/Vital-Ressources/refs/heads/main/Common/Requirements.lua", true))()
+
+local VitalLibrary = {Tabs = {}, Flags = {}, Theme = {}, Title = "Vital.wtf", IsOpen = false, Options = {}, TabSize = 0, FileText = ".txt", Draggable = true, Instances = {}, FolderName = "Vital.wtf_Configs", Connections = {}, FlagChanged = signal.new(), Notifications = {}}
 
 local dragData = {Dragging = false, DragInput = nil, DragStart = Vector3.zero, DragObject = nil, StartPosition = UDim2.new(0, 0, 0, 0)}
 local blacklistedKeyCodes = {Enum.KeyCode.A, Enum.KeyCode.D, Enum.KeyCode.S, Enum.KeyCode.W, Enum.KeyCode.Tab, Enum.KeyCode.Slash, Enum.KeyCode.Escape, Enum.KeyCode.Unknown}
@@ -377,12 +378,14 @@ VitalLibrary.CreateToggle = function(option : Dictionary, parent : Instance)
 			tickboxOverlay.BackgroundTransparency = (state or false) and 1 or 0
 		end
 		if not nocallback then
+			VitalLibrary.FlagChanged:Fire(self.Flag, state or false)
 			self.Callback(state or false)
 		end
 	end
 	if option.State ~= nil then
 		task.delay(1, function()
 			if VitalLibrary then
+				VitalLibrary.FlagChanged:Fire(option.Flag, option.State or false)
 				option.Callback(option.State)
 			end
 		end)
@@ -445,6 +448,7 @@ VitalLibrary.CreateButton = function(option : Dictionary, parent : Instance)
 	}, false)
 	option.Title.InputBegan:Connect(function(input : InputObject)
 		if input.UserInputType == Enum.UserInputType.MouseButton1 then
+			VitalLibrary.FlagChanged:Fire(option.Flag)
 			option.Callback()
 			if VitalLibrary then
 				VitalLibrary.Flags[option.Flag] = true
@@ -531,15 +535,18 @@ VitalLibrary.CreateBind = function(option : Dictionary, parent : Instance)
 			if (input.KeyCode.Name == option.KeyCode or input.UserInputType.Name == option.KeyCode) and not binding then
 				if option.Mode == "Toggle" then
 					VitalLibrary.Flags[option.Flag] = not VitalLibrary.Flags[option.Flag]
+					VitalLibrary.FlagChanged:Fire(option.Flag, VitalLibrary.Flags[option.Flag], 0)
 					option.Callback(VitalLibrary.Flags[option.Flag], 0)
 				else
 					VitalLibrary.Flags[option.Flag] = true
 					if loop then 
 						loop:Disconnect() 
+						VitalLibrary.FlagChanged:Fire(option.Flag, true, 0)
 						option.Callback(true, 0) 
 					end
 					loop = VitalLibrary:AddConnection(RunService.RenderStepped, function(deltaTime : number)
 						if not UserInputService:GetFocusedTextBox() then
+							VitalLibrary.FlagChanged:Fire(option.Flag, nil, deltaTime)
 							option.Callback(nil, deltaTime)
 						end
 					end)
@@ -556,6 +563,7 @@ VitalLibrary.CreateBind = function(option : Dictionary, parent : Instance)
 				if loop then
 					loop:Disconnect()
 					VitalLibrary.Flags[option.Flag] = false
+					VitalLibrary.FlagChanged:Fire(option.Flag, true, 0)
 					option.Callback(true, 0)
 				end
 			end
@@ -567,6 +575,7 @@ VitalLibrary.CreateBind = function(option : Dictionary, parent : Instance)
 		if loop then 
 			loop:Disconnect() 
 			VitalLibrary.Flags[option.Flag] = false 
+			VitalLibrary.FlagChanged:Fire(option.Flag, true, 0)
 			option.Callback(true, 0) 
 		end
 		self.KeyCode = (keyCode and keyCode.Name) or keyCode or self.KeyCode
@@ -737,6 +746,7 @@ VitalLibrary.CreateSlider = function(option : Dictionary, parent : Instance)
 		self.Value = value
 		option.Title.Text = (option.Text == "nil" and "" or option.Text .. ": ") .. option.Value .. option.Suffix
 		if not nocallback then
+			VitalLibrary.FlagChanged:Fire(self.Flag, value)
 			self.Callback(value)
 		end
 	end
@@ -1045,6 +1055,7 @@ VitalLibrary.CreateList = function(option : Dictionary, parent : Instance) : Dic
 			end
 		end
 		if not nocallback then
+			VitalLibrary.FlagChanged:Fire(self.Flag, self.Value)
 			self.Callback(self.Value)
 		end
 	end
@@ -1174,6 +1185,7 @@ VitalLibrary.CreateBox = function(option : Dictionary, parent : Instance)
 			VitalLibrary.Flags[self.Flag] = tostring(value)
 			self.Value = tostring(value)
 			inputvalue.Text = self.Value
+			VitalLibrary.FlagChanged:Fire(self.Flag, value, enterPressed)
 			self.Callback(value, enterPressed)
 		end
 	end
@@ -1559,6 +1571,7 @@ VitalLibrary.CreateColor = function(option : Dictionary, parent : Instance)
 		VitalLibrary.Flags[self.Flag] = newColor
 		self.Color = newColor
 		if not nocallback then
+			VitalLibrary.FlagChanged:Fire(self.Flag, newColor)
 			self.Callback(newColor)
 		end
 	end
