@@ -744,7 +744,7 @@ VitalLibrary.CreateSlider = function(option : Dictionary, parent : Instance)
 		end
 		VitalLibrary.Flags[self.Flag] = value
 		self.Value = value
-		option.Title.Text = (option.Text == "nil" and "" or option.Text .. ": ") .. option.Value .. option.Suffix
+		option.Title.Text = (option.Text == "nil" and "" or option.Text .. ": ") .. string.format("%." .. tostring(string.len(string.match(tostring(option.Float), "%.(%d+)", 1) or "")) .. "f", option.Value) .. option.Suffix
 		if not nocallback then
 			VitalLibrary.FlagChanged:Fire(self.Flag, value)
 			self.Callback(value)
