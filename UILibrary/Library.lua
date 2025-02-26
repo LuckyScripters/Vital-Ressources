@@ -735,7 +735,7 @@ VitalLibrary.CreateSlider = function(option : Dictionary, parent : Instance)
 		if typeof(value) ~= "number" then 
 			value = 0 
 		end
-		value = math.clamp(VitalLibrary.SnapTo(value, option.Float), self.Minimum, self.Maximum)
+		value = math.clamp(string.format("%." .. tostring(string.len(string.match(tostring(option.Float), "%.(%d+)", 1) or "")) .. "f", VitalLibrary.SnapTo(value, option.Float)), self.Minimum, self.Maximum)
 		if self.Minimum >= 0 then
 			option.Fill.Size = UDim2.new((value - self.Minimum) / (self.Maximum - self.Minimum), 0, 1, 0)
 		else
